@@ -1634,7 +1634,7 @@ namespace XTypes {
   // // and SubscriptionBuiltinTopicData
 
   struct TypeInformation {
-    TypeIdentifierWithDependencies minimal; 
+    TypeIdentifierWithDependencies minimal;
     TypeIdentifierWithDependencies complete;
   };
   typedef Sequence<TypeInformation> TypeInformationSeq;
@@ -1645,6 +1645,7 @@ namespace XTypes {
 
   OpenDDS_Dcps_Export
   bool operator<<(DCPS::Serializer& ser, const TypeInformation& type_info);
+  
   OpenDDS_Dcps_Export
   bool operator>>(DCPS::Serializer& ser, TypeInformation& type_info);
 

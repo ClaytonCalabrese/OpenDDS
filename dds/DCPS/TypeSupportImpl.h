@@ -53,6 +53,7 @@ public:
     DDS::DataRepresentationIdSeq& seq) = 0;
 
   virtual const XTypes::TypeObject& getMinimalTypeObject() const = 0;
+  
 private:
   virtual const char* default_type_name() const = 0;
 
