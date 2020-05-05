@@ -1659,7 +1659,7 @@ namespace XTypes {
 
   OpenDDS_Dcps_Export
   bool operator<<(DCPS::Serializer& ser, const TypeInformation& type_info);
-  
+
   OpenDDS_Dcps_Export
   bool operator>>(DCPS::Serializer& ser, TypeInformation& type_info);
 
