@@ -142,7 +142,7 @@ namespace OpenDDS {
         DiscoveredReaderData reader_data_;
         DDS::InstanceHandle_t bit_ih_;
         XTypes::TypeInformation type_info;
-        
+
 #ifdef OPENDDS_SECURITY
         DDS::Security::EndpointSecurityAttributes security_attribs_;
         bool have_ice_agent_info_;
