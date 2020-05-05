@@ -10,6 +10,7 @@
 
 #include "dcps_export.h"
 #include "dds/DCPS/Definitions.h"
+#include "dds/DCPS/TypeObject.h"
 #include "dds/DdsDcpsTypeSupportExtC.h"
 #include "LocalObject.h"
 
@@ -51,6 +52,7 @@ public:
   virtual void representations_allowed_by_type(
     DDS::DataRepresentationIdSeq& seq) = 0;
 
+  virtual const XTypes::TypeObject& getMinimalTypeObject() const = 0;
 private:
   virtual const char* default_type_name() const = 0;
 
