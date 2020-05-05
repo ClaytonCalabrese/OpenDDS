@@ -36,6 +36,39 @@ namespace {
     param_list[length] = param;
   }
 
+  void extract_type_info_param(const Parameter& param, XTypes::TypeInformation& type_info, bool swap_bytes) {
+    ACE_Data_Block db(param.type_information().length(), ACE_Message_Block::MB_DATA,
+          reinterpret_cast<const char*>(param.type_information().get_buffer()),
+          0 /*alloc*/, 0 /*lock*/, ACE_Message_Block::DONT_DELETE, 0 /*db_alloc*/);
+    ACE_Message_Block data(&db, ACE_Message_Block::DONT_DELETE, 0 /*mb_alloc*/);
+          data.wr_ptr(data.space());
+    OpenDDS::DCPS::Serializer serializer(&data, swap_bytes);
+    if (!(serializer >> type_info)) {
+          ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) from_param_list ")
+          ACE_TEXT("deserialization type information failed.\n")));
+    }
+  }
+
+  void add_type_info_param(ParameterList& param_list, const XTypes::TypeInformation& type_info, bool swap_bytes) {
+    Parameter param; 
+    //create message block smart pointer to put data into using the size of a type information object
+    OpenDDS::DCPS::Message_Block_Ptr data (
+      new ACE_Message_Block( OpenDDS::XTypes::find_size(type_info))) ;
+    OpenDDS::DCPS::Serializer serializer(
+      data.get(),
+      swap_bytes);
+    serializer << type_info;
+    //copy serialized data into octet sequence
+    ssize_t size = data->length();
+    param.type_information(DDS::OctetSeq(size));
+    param.type_information().length(size);
+    //due to memcpy being a c function the char* needs to be taken out of the message block
+    std::memcpy(param.type_information().get_buffer(), data->rd_ptr(), size);
+    //discriminator set to PID_XTYPES... which tells us what is in the discriminating union
+    param._d(PID_XTYPES_TYPE_INFORMATION);
+    add_param(param_list, param);
+  }
+
   void add_param_locator_seq(ParameterList& param_list,
                              const DCPS::LocatorSeq& locator_seq,
                              const ParameterId_t pid) {
@@ -722,7 +755,7 @@ bool from_param_list(const ParameterList& param_list,
       break;
     }
   }
-it
+
   if (result) {
     result = from_param_list(param_list, participant_data.participantProxy);
     if (result) {
@@ -750,30 +783,7 @@ bool to_param_list(const DCPS::DiscoveredWriterData& writer_data,
     param._d(PID_TOPIC_NAME);
     add_param(param_list, param);
   }
-  {
-    //create message block smart pointer to put data into using the size of a type information object
-    OpenDDS::DCPS::Message_Block_Ptr data (
-      new ACE_Message_Block( OpenDDS::XTypes::find_size(type_info))) ;
-    //create a serializer
-    OpenDDS::DCPS::Serializer serializer(
-    //get the actual Message Block
-      data.get(),
-      swap_bytes); // TODO: Get swap bytes flag?
-    //serialize type info
-    serializer << type_info;
-    // TODO: Get the data out of the MB and put it into param.type_information
-    Parameter param;
-    //copy serialized data into octec sequence
-    ssize_t size = data->length();
-    param.type_information(DDS::OctetSeq(size));
-    param.type_information().length(size);
-    //due to memcpy being a c function the char* needs to be taken out of the message block
-    std::memcpy(param.type_information().get_buffer(), data->rd_ptr(), size);
-    //discriminator set to PID_XTYPES... which tells us what is in the discriminating union
-    param._d(PID_XTYPES_TYPE_INFORMATION);
-    //add the param to the param list
-    add_param(param_list, param);
-  }
+  add_type_info_param(param_list, type_info, swap_bytes);
   {
     Parameter param;
     param.string_data(writer_data.ddsPublicationData.type_name);
@@ -1089,19 +1099,7 @@ bool from_param_list(const ParameterList& param_list,
         // ignore
         break;
       case PID_XTYPES_TYPE_INFORMATION:
-        {
-          ACE_Data_Block db(param.type_information().length(), ACE_Message_Block::MB_DATA,
-                    reinterpret_cast<const char*>(param.type_information().get_buffer()),
-                    0 /*alloc*/, 0 /*lock*/, ACE_Message_Block::DONT_DELETE, 0 /*db_alloc*/);
-          ACE_Message_Block data(&db, ACE_Message_Block::DONT_DELETE, 0 /*mb_alloc*/);
-          data.wr_ptr(data.space());
-
-          OpenDDS::DCPS::Serializer serializer(&data, swap_bytes);
-          if (!(serializer >> type_info)) {
-            ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) from_param_list ")
-                       ACE_TEXT("deserialization type information failed.\n")));
-          }
-        }
+        extract_type_info_param(param, type_info, swap_bytes);
         break;
       default:
         if (param._d() & PIDMASK_INCOMPATIBLE) {
@@ -1131,30 +1129,7 @@ bool to_param_list(const DCPS::DiscoveredReaderData& reader_data,
     param._d(PID_TOPIC_NAME);
     add_param(param_list, param);
   }
-  {
-    //create message block smart pointer to put data into using the size of a type information object
-    OpenDDS::DCPS::Message_Block_Ptr data (
-      new ACE_Message_Block( OpenDDS::XTypes::find_size(type_info))) ;
-    //create a serializer
-    OpenDDS::DCPS::Serializer serializer(
-    //get the actual Message Block
-      data.get(),
-      swap_bytes); // TODO: Get swap bytes flag?
-    //serialize type info
-    serializer << type_info;
-    // TODO: Get the data out of the MB and put it into param.type_information
-    Parameter param;
-    //copy serialized data into octec sequence
-    ssize_t size = data->length();
-    param.type_information(DDS::OctetSeq(size));
-    param.type_information().length(size);
-    //due to memcpy being a c function the char* needs to be taken out of the message block
-    std::memcpy(param.type_information().get_buffer(), data->rd_ptr(), size);
-    //discriminator set to PID_XTYPES... which tells us what is in the discriminating union
-    param._d(PID_XTYPES_TYPE_INFORMATION);
-    //add the param to the param list
-    add_param(param_list, param);
-  }
+  add_type_info_param(param_list, type_info, swap_bytes);
   {
     Parameter param;
     param.string_data(reader_data.ddsSubscriptionData.type_name);
@@ -1472,20 +1447,7 @@ bool from_param_list(const ParameterList& param_list,
         // ignore
         break;
       case PID_XTYPES_TYPE_INFORMATION:
-        {
-          ACE_Data_Block db(param.type_information().length(), ACE_Message_Block::MB_DATA,
-                    reinterpret_cast<const char*>(param.type_information().get_buffer()),
-                    0 /*alloc*/, 0 /*lock*/, ACE_Message_Block::DONT_DELETE, 0 /*db_alloc*/);
-          ACE_Message_Block data(&db, ACE_Message_Block::DONT_DELETE, 0 /*mb_alloc*/);
-          data.wr_ptr(data.space());
-
-          OpenDDS::DCPS::Serializer serializer(&data, swap_bytes);
-          if (!(serializer >> type_info)) {
-            ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) from_param_list ")
-                       ACE_TEXT("deserialization type information failed.\n")));
-          }
-        }
-        break;
+        extract_type_info_param(param, type_info, swap_bytes);
       default:
         if (param._d() & PIDMASK_INCOMPATIBLE) {
           return false;
