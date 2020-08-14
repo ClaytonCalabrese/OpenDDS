@@ -505,6 +505,21 @@ std::ostream& operator<<(std::ostream& o,
   }
 }
 
+inline std::string bounded_arg(AST_Type* type)
+{
+  using namespace AstTypeClassification;
+  std::ostringstream arg;
+  const Classification cls = classify(type);
+  if (cls & CL_STRING) {
+    AST_String* const str = AST_String::narrow_from_decl(type);
+    arg << str->max_size()->ev()->u.ulval;
+  } else if (cls & CL_SEQUENCE) {
+    AST_Sequence* const seq = AST_Sequence::narrow_from_decl(type);
+    arg << seq->max_size()->ev()->u.ulval;
+  }
+  return arg.str();
+}
+
 inline
 void generateBranchLabels(AST_UnionBranch* branch, AST_Type* discriminator,
                           size_t& n_labels, bool& has_default)
@@ -601,7 +616,7 @@ void generateCaseBody(
       "      uni." << name << (use_cxx11 ? "(std::move(tmp));\n" : "(tmp);\n") <<
       "      uni._d(disc);\n"
       "      return true;\n"
-      "    }\n"
+      "    }\n";
       "    return false;\n";
   } else {
     const char* breakString = generateBreaks ? "    break;\n" : "";
