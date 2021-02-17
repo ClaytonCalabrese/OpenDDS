@@ -29,7 +29,7 @@ env:
   TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
-  18_04_debug_java_ACE_TAO:
+  ubuntu-18_04_debug_java_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -96,11 +96,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_debug_java_build:
+  ubuntu-18_04_debug_java_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_debug_java_ACE_TAO
+    needs: ubuntu-18_04_debug_java_ACE_TAO
 
     steps:
     - name: install xerces
@@ -119,13 +119,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_debug_java_ACE_TAO_artifact
+        name: ubuntu-18_04_debug_java_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_debug_java_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_debug_java_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -274,7 +274,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_release_java_ACE_TAO:
+  ubuntu-18_04_release_java_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -341,11 +341,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_release_java_build:
+  ubuntu-18_04_release_java_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_release_java_ACE_TAO
+    needs: ubuntu-18_04_release_java_ACE_TAO
 
     steps:
     - name: install xerces
@@ -364,13 +364,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_release_java_ACE_TAO_artifact
+        name: ubuntu-18_04_release_java_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_release_java_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_release_java_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -507,7 +507,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_extendedsafety_ACE_TAO:
+  ubuntu-18_04_extendedsafety_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -574,11 +574,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_extendedsafety_build:
+  ubuntu-18_04_extendedsafety_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_extendedsafety_ACE_TAO
+    needs: ubuntu-18_04_extendedsafety_ACE_TAO
 
     steps:
     - name: install xerces
@@ -597,13 +597,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_extendedsafety_ACE_TAO_artifact
+        name: ubuntu-18_04_extendedsafety_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_extendedsafety_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_extendedsafety_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -740,7 +740,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_basesafety_ACE_TAO:
+  ubuntu-18_04_basesafety_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -807,11 +807,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_basesafety_build:
+  ubuntu-18_04_basesafety_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_basesafety_ACE_TAO
+    needs: ubuntu-18_04_basesafety_ACE_TAO
 
     steps:
     - name: install xerces
@@ -830,13 +830,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_basesafety_ACE_TAO_artifact
+        name: ubuntu-18_04_basesafety_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_basesafety_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_basesafety_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -973,7 +973,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_sec_wofeatures_ACE_TAO:
+  ubuntu-18_04_sec_wofeatures_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -1040,11 +1040,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_sec_wofeatures_build:
+  ubuntu-18_04_sec_wofeatures_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_sec_wofeatures_ACE_TAO
+    needs: ubuntu-18_04_sec_wofeatures_ACE_TAO
 
     steps:
     - name: install xerces
@@ -1063,13 +1063,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_sec_wofeatures_ACE_TAO_artifact
+        name: ubuntu-18_04_sec_wofeatures_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_sec_wofeatures_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_sec_wofeatures_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -1206,7 +1206,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_clang5_ACE_TAO:
+  ubuntu-18_04_clang5_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -1276,11 +1276,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_clang5_build:
+  ubuntu-18_04_clang5_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_clang5_ACE_TAO
+    needs: ubuntu-18_04_clang5_ACE_TAO
 
     steps:
     - name: install xerces
@@ -1302,13 +1302,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_clang5_ACE_TAO_artifact
+        name: ubuntu-18_04_clang5_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_clang5_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_clang5_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -1445,7 +1445,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_clang10_ACE_TAO:
+  ubuntu-18_04_clang10_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -1515,11 +1515,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_clang10_build:
+  ubuntu-18_04_clang10_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_clang10_ACE_TAO
+    needs: ubuntu-18_04_clang10_ACE_TAO
 
     steps:
     - name: install clang++
@@ -1541,13 +1541,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_clang10_ACE_TAO_artifact
+        name: ubuntu-18_04_clang10_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_clang10_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_clang10_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -1684,7 +1684,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_gcc6_cpp03_ACE_TAO:
+  ubuntu-18_04_gcc6_cpp03_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -1754,11 +1754,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_gcc6_cpp03_build:
+  ubuntu-18_04_gcc6_cpp03_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_gcc6_cpp03_ACE_TAO
+    needs: ubuntu-18_04_gcc6_cpp03_ACE_TAO
 
     steps:
     - name: install gcc
@@ -1780,13 +1780,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_gcc6_cpp03_ACE_TAO_artifact
+        name: ubuntu-18_04_gcc6_cpp03_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_gcc6_cpp03_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_gcc6_cpp03_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -1923,7 +1923,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_gcc8_ACE_TAO:
+  ubuntu-18_04_gcc8_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -1993,11 +1993,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_gcc8_build:
+  ubuntu-18_04_gcc8_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_gcc8_ACE_TAO
+    needs: ubuntu-18_04_gcc8_ACE_TAO
 
     steps:
     - name: install gcc
@@ -2019,13 +2019,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_gcc8_ACE_TAO_artifact
+        name: ubuntu-18_04_gcc8_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_gcc8_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_gcc8_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -2162,7 +2162,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  18_04_gcc10_ACE_TAO:
+  ubuntu-18_04_gcc10_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -2232,11 +2232,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  18_04_gcc10_build:
+  ubuntu-18_04_gcc10_build:
 
     runs-on: ubuntu-18.04
 
-    needs: 18_04_gcc10_ACE_TAO
+    needs: ubuntu-18_04_gcc10_ACE_TAO
 
     steps:
     - name: install gcc
@@ -2258,13 +2258,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 18_04_gcc10_ACE_TAO_artifact
+        name: ubuntu-18_04_gcc10_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 18_04_gcc10_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-18_04_gcc10_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -2401,7 +2401,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  20_04_face_safety_ACE_TAO:
+  ubuntu-20_04_face_safety_ACE_TAO:
 
     runs-on: ubuntu-20.04
 
@@ -2471,11 +2471,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  20_04_face_safety_build:
+  ubuntu-20_04_face_safety_build:
 
     runs-on: ubuntu-20.04
 
-    needs: 20_04_face_safety_ACE_TAO
+    needs: ubuntu-20_04_face_safety_ACE_TAO
 
     steps:
     - name: install gcc
@@ -2497,13 +2497,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 20_04_face_safety_ACE_TAO_artifact
+        name: ubuntu-20_04_face_safety_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 20_04_face_safety_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-20_04_face_safety_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -2541,11 +2541,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  20_04_face_safety_test:
+  ubuntu-20_04_face_safety_test:
 
     runs-on: ubuntu-20.04
 
-    needs: 20_04_face_safety_build
+    needs: ubuntu-20_04_face_safety_build
 
     steps:
     - name: install xerces
@@ -2569,13 +2569,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: 20_04_face_safety_ACE_TAO_artifact
+        name: ubuntu-20_04_face_safety_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ 20_04_face_safety_ACE_TAO.tar.xz
+        tar xvfJ ubuntu-20_04_face_safety_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -2584,13 +2584,13 @@ jobs:
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
       with:
-        name: 20_04_face_safety_build_artifact
+        name: ubuntu-20_04_face_safety_build_artifact
         path: OpenDDS
     - name: extract OpenDDS artifact
       shell: bash
       run: |
         cd OpenDDS
-        tar xvfJ 20_04_face_safety_build.tar.xz
+        tar xvfJ ubuntu-20_04_face_safety_build.tar.xz
     - name: check build configuration
       shell: bash
       run: |
