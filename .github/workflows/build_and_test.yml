@@ -1212,8 +1212,10 @@ jobs:
 
     steps:
     - name: install clang++
-      run: sudo apt-get install -y clang-5
-           sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5 100
+      run: |
+        sudo apt-get install -y clang-5
+        sudo update-alternatives \
+          --install /usr/bin/clang++ clang++ /usr/bin/clang++-5 100
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -6195,7 +6197,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --optimize --no-debug --std=c++11 --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC --xerces3=/usr/local/Cellar/xerces-c/3.2.3 --openssl=/usr/local/opt/openssl/
+        ./configure --optimize --std=c++11 --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC --xerces3=/usr/local/Cellar/xerces-c/3.2.3 --openssl=/usr/local/opt/openssl/
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
