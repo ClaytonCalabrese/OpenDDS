@@ -4331,9 +4331,9 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         cd ACE_TAO\ACE
-        msbuild -p:Configuration=Static Debug,Platform=x64 -m ace.sln
+        msbuild -p:Configuration="Static Debug",Platform=x64 -m ace.sln
         cd ..\TAO
-        msbuild -p:Configuration=Static Debug,Platform=x64 -m tao.sln
+        msbuild -p:Configuration="Static Debug",Platform=x64 -m tao.sln
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
