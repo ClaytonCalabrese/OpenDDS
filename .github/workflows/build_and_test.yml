@@ -1707,14 +1707,6 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: install gcc
-      run: | 
-        sudo apt-get install -y gcc-6
-        sudo update-alternatives \
-          --install /usr/bin/gcc gcc /usr/bin/gcc-6 100 \
-          --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-6 \
-          --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-6 \
-          --slave /usr/bin/gcov gcov /usr/bin/gcov-6
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -1751,7 +1743,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --compiler=g++ --no-debug --features=uses_wchar=1 --std=c++03 --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --no-debug --features=uses_wchar=1 --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
