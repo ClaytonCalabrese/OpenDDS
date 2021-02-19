@@ -626,7 +626,7 @@ jobs:
     - name: build OpenDDS
       shell: bash
       run: |
-        cd OpenDDS
+        cd OpenDDS/build/target
         . setenv.sh
         make -j4
     - name: create OpenDDS tar.xz artifact
