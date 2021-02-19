@@ -2810,6 +2810,7 @@ jobs:
       run: sudo apt-get -y install libxerces-c-dev
     - name: install wireshark
       run: sudo apt-get -y install wireshark
+           which wireshark
     - name: checkout MPC
       uses: actions/checkout@v2.3.4
       with:
