@@ -632,7 +632,7 @@ jobs:
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
-        cd OpenDDS
+        cd OpenDDS/build/target
         rm -rf ACE_TAO
         find . -iname "*\.o" | xargs rm
         tar cvf ../${{ github.job }}.tar setenv.sh
