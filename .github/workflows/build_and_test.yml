@@ -612,14 +612,14 @@ jobs:
     - name: configure OpenDDS
       run: |
         cd OpenDDS
-        ls
-        cd build/target
-        ls
         ./configure --tests --safety-profile --no-rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: check build configuration
       shell: bash
       run: |
         cd OpenDDS
+        ls
+        cd build/target
+        ls
         . setenv.sh
         tools/scripts/show_build_config.pl
     - uses: ammaraskar/gcc-problem-matcher@0.1
