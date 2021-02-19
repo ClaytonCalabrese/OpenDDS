@@ -4871,6 +4871,7 @@ jobs:
         msbuild -p:Configuration=Debug,Platform=x64 -m tao.sln
     - name: gitclean
       run: |
+          cd OpenDDS
           touch test.txt 
           git clean -nd -e ext
     - name: create ACE_TAO tar.xz artifact
