@@ -4870,12 +4870,13 @@ jobs:
         cd ..\TAO
         msbuild -p:Configuration=Debug,Platform=x64 -m tao.sln
     - name: gitclean
+      shell: bash
       run: |
         touch output.txt
         cd OpenDDS
         touch helloworld
         git clean -nd -e ext | tee > ../output.txt
-        if ([ -s output.txt ]); then exit 1; fi
+        if [ -s output.txt ]; then exit 1; fi
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
