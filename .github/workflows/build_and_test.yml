@@ -2809,7 +2809,7 @@ jobs:
     - name: install xerces
       run: sudo apt-get -y install libxerces-c-dev
     - name: install wireshark
-      run: sudo apt-get -y install wireshark
+      run: sudo apt-get -y install wireshark-dev
     - name: find wireshark
       run:  ls /usr/include
     - name: checkout MPC
@@ -2841,7 +2841,7 @@ jobs:
     - name: configure OpenDDS
       run: |
         cd OpenDDS
-        ./configure --wireshark=/usr/bin/wireshark --tests --security --java --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --wireshark= --tests --security --java --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: check build configuration
       shell: bash
       run: |
