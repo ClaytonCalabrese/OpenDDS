@@ -4871,7 +4871,14 @@ jobs:
         msbuild -p:Configuration=Debug,Platform=x64 -m tao.sln
     - name: gitclean
       run: |
-          exit 1
+          touch empty
+          touch output
+          cd OpenDDS
+          touch test.txt 
+          git clean -nd -e ext > ../output
+          ls -l ../{empty,output}
+          [ -s ../empty ] 
+          echo $?
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
