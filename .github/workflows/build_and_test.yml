@@ -2811,7 +2811,7 @@ jobs:
     - name: install wireshark
       run: sudo apt-get -y install wireshark
     - name: find wireshark
-      run:  which wireshark
+      run:  ls /usr/include
     - name: checkout MPC
       uses: actions/checkout@v2.3.4
       with:
