@@ -4876,7 +4876,7 @@ jobs:
         cd OpenDDS
         git clean -nd -e ext | tee ../output.txt
         [ -s output.txt ]
-        if [$? 1]; then echo "the build is clean"; else echo exit 1; fi
+        if [$? 1]; then echo "the build is clean"; "else echo "exit 1"; fi
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
