@@ -4874,7 +4874,6 @@ jobs:
       run: |
         touch output.txt
         cd OpenDDS
-        touch test.txt
         git clean -nd -e ext | tee ../output.txt
         [ -s output.txt ]
         if [$? 1]; then echo "the build is clean"; else echo exit 1; fi
