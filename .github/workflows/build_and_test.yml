@@ -4874,7 +4874,6 @@ jobs:
       run: |
         touch output.txt
         cd OpenDDS
-        touch tset.cpp
         git clean -nd -e ext | tee ../output.txt
         if [ -s ../output.txt ]; then exit 1; else echo "the build is clean"; fi
     - name: create ACE_TAO tar.xz artifact
