@@ -4875,7 +4875,7 @@ jobs:
         touch output.txt
         cd OpenDDS
         git clean -nd -e ext | tee ../output.txt
-        if [ -s output.txt ] then echo "the build is clean"; else echo "a"; fi
+        if [ -s output.txt ]; then echo "the build is clean"; else echo "a"; fi
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
