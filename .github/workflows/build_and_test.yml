@@ -5437,6 +5437,7 @@ jobs:
         vcpkgGitCommitId: ec6fe06
         vcpkgArguments: --recurse openssl-windows xerces-c
         vcpkgTriplet: x86-windows
+    - name: ls
       shell: bash
       run: ls
     - name: checkout MPC
