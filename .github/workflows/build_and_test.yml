@@ -5439,10 +5439,11 @@ jobs:
         vcpkgTriplet: x86-windows
     - name: ls
       shell: bash
-      run: cd $VCPKG_ROOT
-        ls -l
-        cd buildtrees
-        ls -l
+      run: | 
+        cd $VCPKG_ROOT \
+        ls -l \
+        cd buildtrees \
+        ls -l \
 
     - name: checkout MPC
       uses: actions/checkout@v2.3.4
