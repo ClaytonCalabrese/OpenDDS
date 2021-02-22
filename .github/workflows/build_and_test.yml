@@ -5440,7 +5440,8 @@ jobs:
     - name: ls
       shell: bash
       run: | 
-        cd $VCPKG_ROOT \
+        pwd \
+        cd D:\a\OpenDDS\OpenDDS\vcpkg \
         ls -l \
         cd buildtrees \
         ls -l \
