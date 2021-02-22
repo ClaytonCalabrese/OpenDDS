@@ -5346,83 +5346,83 @@ jobs:
 
 #   # Windows 2016 - x86, No Debug, No Inline
 
-  # clayton_windows-2016_x86_no-debug_no-inline_ACE_TAO:
+  clayton_windows-2016_x86_no-debug_no-inline_ACE_TAO:
 
-  #   runs-on: windows-2016
+    runs-on: windows-2016
 
-  #   steps:
-  #   - name: checkout OpenDDS
-  #     uses: actions/checkout@v2.3.4
-  #     with:
-  #       path: OpenDDS
-  #       submodules: true
-  #   - name: checkout ACE_TAO
-  #     uses: actions/checkout@v2.3.4
-  #     with:
-  #       repository: DOCGroup/ACE_TAO
-  #       ref: ace6tao2
-  #       path: OpenDDS/ACE_TAO
-  #   - name: get ACE_TAO commit
-  #     shell: bash
-  #     run: |
-  #       cd OpenDDS/ACE_TAO
-  #       export ACE_COMMIT=$(git rev-parse HEAD)
-  #       echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
-  #   - name: Cache Artifact
-  #     id: cache-artifact
-  #     uses: actions/cache@v2.1.4
-  #     with:
-  #       path: ${{ github.job }}.tar.xz
-  #       key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
-  #   - name: install openssl-windows & xerces-c
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     uses: lukka/run-vcpkg@v6
-  #     with:
-  #       vcpkgGitCommitId: ec6fe06
-  #       vcpkgArguments: --recurse openssl-windows xerces-c
-  #       vcpkgTriplet: x86-windows
-  #   - name: checkout MPC
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     uses: actions/checkout@v2.3.4
-  #     with:
-  #       repository: DOCGroup/MPC
-  #       path: MPC
-  #   - name: set up msvc env
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     uses: ilammy/msvc-dev-cmd@v1.5.0
-  #     with:
-  #       arch: x86
-  #   - name: configure OpenDDS
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     shell: cmd
-  #     run: |
-  #       cd OpenDDS
-  #       configure --no-debug --no-inline --tests --security --ace=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=%GITHUB_WORKSPACE%/MPC --xerces3=%VCPKG_ROOT%/installed/x86-windows --openssl=%VCPKG_ROOT%/installed/x86-windows --mpcopts=-hierarchy
-  #   - name: build ACE & TAO
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     shell: cmd
-  #     run: |
-  #       cd OpenDDS
-  #       call setenv.cmd
-  #       cd ACE_TAO\ACE
-  #       msbuild -p:Configuration=Release,Platform=Win32 -m ace.sln
-  #       cd ..\TAO
-  #       msbuild -p:Configuration=Release,Platform=Win32 -m tao.sln
-  #   - name: create ACE_TAO tar.xz artifact
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     shell: bash
-  #     run: |
-  #       cd OpenDDS/ACE_TAO
-  #       perl -ni.bak -e "print unless /opendds/" ACE/bin/MakeProjectCreator/config/default.features # remove opendds features from here, let individual build configure scripts handle those
-  #       find . -iname "*\.obj" | xargs rm
-  #       tar cvf ../../${{ github.job }}.tar ACE/ace/config.h
-  #       git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../../${{ github.job }}.tar
-  #       xz -3 ../../${{ github.job }}.tar
-  #   - name: upload ACE_TAO artifact
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: ${{ github.job }}_artifact
-  #       path: ${{ github.job }}.tar.xz
+    steps:
+    - name: checkout OpenDDS
+      uses: actions/checkout@v2.3.4
+      with:
+        path: OpenDDS
+        submodules: true
+    - name: checkout ACE_TAO
+      uses: actions/checkout@v2.3.4
+      with:
+        repository: DOCGroup/ACE_TAO
+        ref: ace6tao2
+        path: OpenDDS/ACE_TAO
+    - name: get ACE_TAO commit
+      shell: bash
+      run: |
+        cd OpenDDS/ACE_TAO
+        export ACE_COMMIT=$(git rev-parse HEAD)
+        echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
+    - name: Cache Artifact
+      id: cache-artifact
+      uses: actions/cache@v2.1.4
+      with:
+        path: ${{ github.job }}.tar.xz
+        key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
+    - name: install openssl-windows & xerces-c
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
+      uses: lukka/run-vcpkg@v6
+      with:
+        vcpkgGitCommitId: ec6fe06
+        vcpkgArguments: --recurse openssl-windows xerces-c
+        vcpkgTriplet: x86-windows
+    - name: checkout MPC
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
+      uses: actions/checkout@v2.3.4
+      with:
+        repository: DOCGroup/MPC
+        path: MPC
+    - name: set up msvc env
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
+      uses: ilammy/msvc-dev-cmd@v1.5.0
+      with:
+        arch: x86
+    - name: configure OpenDDS
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        cd OpenDDS
+        configure --no-debug --no-inline --tests --security --ace=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=%GITHUB_WORKSPACE%/MPC --xerces3=%VCPKG_ROOT%/installed/x86-windows --openssl=%VCPKG_ROOT%/installed/x86-windows --mpcopts=-hierarchy
+    - name: build ACE & TAO
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        cd OpenDDS
+        call setenv.cmd
+        cd ACE_TAO\ACE
+        msbuild -p:Configuration=Release,Platform=Win32 -m ace.sln
+        cd ..\TAO
+        msbuild -p:Configuration=Release,Platform=Win32 -m tao.sln
+    - name: create ACE_TAO tar.xz artifact
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        cd OpenDDS/ACE_TAO
+        perl -ni.bak -e "print unless /opendds/" ACE/bin/MakeProjectCreator/config/default.features # remove opendds features from here, let individual build configure scripts handle those
+        find . -iname "*\.obj" | xargs rm
+        tar cvf ../../${{ github.job }}.tar ACE/ace/config.h
+        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../../${{ github.job }}.tar
+        xz -3 ../../${{ github.job }}.tar
+    - name: upload ACE_TAO artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ github.job }}_artifact
+        path: ${{ github.job }}.tar.xz
 
   clayton_windows-2016_x86_no-debug_no-inline_security_build:
 
