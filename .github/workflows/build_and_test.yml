@@ -5509,11 +5509,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  windows-2016_x86_no-debug_no-inline_security_test:
+  clayton_windows-2016_x86_no-debug_no-inline_security_test:
 
     runs-on: windows-2016
 
-    needs: windows-2016_x86_no-debug_no-inline_security_build
+    needs: clayton_windows-2016_x86_no-debug_no-inline_security_build
 
     steps:
     - name: install openssl-windows & xerces-c
@@ -5546,14 +5546,14 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: windows-2016_x86_no-debug_no-inline_ACE_TAO_artifact
+        name: clayton_windows-2016_x86_no-debug_no-inline_ACE_TAO_artifact
         path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd OpenDDS/ACE_TAO
-        tar xvfJ windows-2016_x86_no-debug_no-inline_ACE_TAO.tar.xz
-        rm -f windows-2016_x86_no-debug_no-inline_ACE_TAO.tar.xz
+        tar xvfJ clayton_windows-2016_x86_no-debug_no-inline_ACE_TAO.tar.xz
+        rm -f clayton_windows-2016_x86_no-debug_no-inline_ACE_TAO.tar.xz
         find . -iname "*\.obj" -o -iname "*\.pdb" -o -iname "*\.idb" -o -type f -iname "*\.tlog" | xargs rm
     - name: Move ACE and MPC to C Drive
       shell: bash
@@ -5563,14 +5563,14 @@ jobs:
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
       with:
-        name: windows-2016_x86_no-debug_no-inline_security_build_artifact
+        name: clayton_windows-2016_x86_no-debug_no-inline_security_build_artifact
         path: OpenDDS
     - name: extract OpenDDS artifact
       shell: bash
       run: |
         cd OpenDDS
-        tar xvfJ windows-2016_x86_no-debug_no-inline_security_build.tar.xz
-        rm -f windows-2016_x86_no-debug_no-inline_security_build.tar.xz
+        tar xvfJ clayton_windows-2016_x86_no-debug_no-inline_security_build.tar.xz
+        rm -f clayton_windows-2016_x86_no-debug_no-inline_security_build.tar.xz
     - name: check build configuration
       shell: cmd
       run: |
