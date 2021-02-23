@@ -5439,9 +5439,8 @@ jobs:
         vcpkgTriplet: x86-windows
     - name: ls
       shell: bash
-      run: | 
-        pwd \
-        cd D:\a\OpenDDS\OpenDDS\vcpkg \
+      run: |
+        cd vcpkg 
         ls -l \
         cd buildtrees \
         ls -l \
