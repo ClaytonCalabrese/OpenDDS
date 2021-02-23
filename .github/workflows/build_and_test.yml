@@ -5440,10 +5440,11 @@ jobs:
     - name: ls
       shell: bash
       run: |
+        ls -l
         cd vcpkg 
-        ls -l \
-        cd buildtrees \
-        ls -l \
+        ls -l 
+        cd buildtrees 
+        ls -l 
 
     - name: checkout MPC
       uses: actions/checkout@v2.3.4
