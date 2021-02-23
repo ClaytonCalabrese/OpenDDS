@@ -28,7 +28,7 @@ on:
 env:
   TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
 
-# jobs:
+jobs:
 #   ubuntu-18_04_debug_java_ACE_TAO:
 
 #     runs-on: ubuntu-18.04
