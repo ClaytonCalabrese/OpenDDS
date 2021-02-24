@@ -24,6 +24,7 @@
 #include "dds/DCPS/ReactorTask.h"
 #include "dds/DCPS/ReactorTask_rch.h"
 #include "dds/DCPS/PeriodicTask.h"
+#include "dds/DCPS/SporadicTask.h"
 #include "dds/DCPS/MultiTask.h"
 #include "dds/DCPS/transport/framework/TransportSendBuffer.h"
 #include "dds/DCPS/NetworkConfigMonitor.h"
@@ -297,6 +298,7 @@ private:
     DisjointSequence requests_;
     OPENDDS_MAP(SequenceNumber, RTPS::FragmentNumberSet) requested_frags_;
     SequenceNumber cur_cumulative_ack_;
+    bool expecting_ack_;
     const bool durable_;
     OPENDDS_MAP(SequenceNumber, TransportQueueElement*) durable_data_;
     MonotonicTimePoint durable_timestamp_;
@@ -311,6 +313,7 @@ private:
       , acknack_recvd_count_(0)
       , nackfrag_recvd_count_(0)
       , cur_cumulative_ack_(SequenceNumber::ZERO()) // Starting at zero instead of unknown makes the logic cleaner.
+      , expecting_ack_(false)
       , durable_(durable)
 #ifdef OPENDDS_SECURITY
       , max_pvs_sn_(SequenceNumber::ZERO())
@@ -365,10 +368,10 @@ private:
     SNRIS lagging_readers_;
     // These reader have acked everything they are supposed to have acked.
     SNRIS leading_readers_;
-    // These readers have sent a non-final acknack that will be answered with a final heartbeat.
-    ReaderInfoSet readers_expecting_heartbeat_;
     // These readers have sent a nack and are expecting data.
     ReaderInfoSet readers_expecting_data_;
+    // These readers have sent a non-final ack are are expecting a heartbeat.
+    ReaderInfoSet readers_expecting_heartbeat_;
     RcHandle<SingleSendBuffer> send_buff_;
     SequenceNumber max_sn_;
     typedef OPENDDS_SET(TransportQueueElement*) TqeSet;
@@ -377,6 +380,7 @@ private:
     WeakRcHandle<RtpsUdpDataLink> link_;
     const RepoId id_;
     const bool durable_;
+    bool stopping_;
     CORBA::Long heartbeat_count_;
 #ifdef OPENDDS_SECURITY
     const bool is_pvs_writer_; // Participant Volatile Secure writer
@@ -414,15 +418,23 @@ private:
     bool is_pvs_writer() const { return false; }
 #endif
 
-    SequenceNumber non_durable_first_sn() const
+    SequenceNumber non_durable_first_sn(const SingleSendBuffer::Proxy& proxy) const
     {
-      return (send_buff_ && !send_buff_->empty()) ? send_buff_->low() : (max_sn_ + 1);
+      if (!proxy.empty()) {
+        return proxy.low();
+      }
+      if (!proxy.pre_empty()) {
+        return proxy.pre_low();
+      }
+      return max_sn_ + 1;
     }
-    void initialize_heartbeat(MetaSubmessage& meta_submessage);
+    void initialize_heartbeat(const SingleSendBuffer::Proxy& proxy,
+                              MetaSubmessage& meta_submessage);
     void gather_preassociation_heartbeat_i(MetaSubmessageVec& meta_submessages,
                                            MetaSubmessage& meta_submessage,
                                            const ReaderInfo_rch& reader);
-    void gather_directed_heartbeat_i(MetaSubmessageVec& meta_submessages,
+    void gather_directed_heartbeat_i(const SingleSendBuffer::Proxy& proxy,
+                                     MetaSubmessageVec& meta_submessages,
                                      MetaSubmessage& meta_submessage,
                                      const ReaderInfo_rch& reader);
 
@@ -430,7 +442,8 @@ private:
     RtpsWriter(RcHandle<RtpsUdpDataLink> link, const RepoId& id, bool durable,
                SequenceNumber max_sn, CORBA::Long heartbeat_count, size_t capacity);
     ~RtpsWriter();
-    SequenceNumber heartbeat_high(const ReaderInfo_rch&) const;
+    SequenceNumber max_data_seq(const SingleSendBuffer::Proxy& proxy,
+                                const ReaderInfo_rch&) const;
     void update_max_sn(const RepoId& reader, SequenceNumber seq);
     void add_elem_awaiting_ack(TransportQueueElement* element);
 
@@ -443,7 +456,7 @@ private:
     size_t reader_count() const;
     CORBA::Long inc_heartbeat_count();
 
-    void pre_stop_helper(OPENDDS_VECTOR(TransportQueueElement*)& to_drop);
+    void pre_stop_helper(OPENDDS_VECTOR(TransportQueueElement*)& to_drop, bool true_stop);
     TransportQueueElement* customize_queue_element_helper(TransportQueueElement* element,
                                                           bool requires_inline_qos,
                                                           MetaSubmessageVec& meta_submessages,
@@ -457,7 +470,7 @@ private:
                           MetaSubmessageVec& meta_submessages);
     void process_acked_by_all();
     void send_and_gather_nack_replies(MetaSubmessageVec& meta_submessages);
-    void gather_heartbeats(OPENDDS_VECTOR(TransportQueueElement*)& pendingCallbacks,
+    bool gather_heartbeats(OPENDDS_VECTOR(TransportQueueElement*)& pendingCallbacks,
                            const RepoIdSet& additional_guids,
                            MetaSubmessageVec& meta_submessages);
     typedef OPENDDS_MAP_CMP(RepoId, SequenceNumber, GUID_tKeyLessThan) ExpectedMap;
@@ -705,7 +718,6 @@ private:
     }
   }
 
-  void send_nack_replies();
   void send_heartbeats(const DCPS::MonotonicTimePoint& now);
   void send_heartbeat_replies(const DCPS::MonotonicTimePoint& now);
   void check_heartbeats(const DCPS::MonotonicTimePoint& now);
@@ -714,34 +726,38 @@ private:
 
   typedef void (RtpsUdpDataLink::*PMF)();
 
-  struct TimedDelay : ACE_Event_Handler {
+  typedef PmfSporadicTask<RtpsUdpDataLink> Sporadic;
 
-    TimedDelay(RtpsUdpDataLink* outer, PMF function,
-               const TimeDuration& timeout)
-      : outer_(outer)
-      , function_(function)
-      , timeout_(timeout)
-    {}
+  mutable ACE_Thread_Mutex heartbeat_mutex_;
+  size_t expected_acks_;
+  MonotonicTimePoint last_heartbeat_;
+  MonotonicTimePoint last_ack_;
+  TimeDuration heartbeat_period_;
+  // End heartbeat_mutex_ scope.
+  Sporadic heartbeat_;
 
-    void schedule(const TimeDuration& timeout = TimeDuration::zero_value);
-    void cancel();
+  TimeDuration heartbeat_period() const {
+    ACE_GUARD_RETURN(ACE_Thread_Mutex, g, heartbeat_mutex_, heartbeat_period_);
+    return heartbeat_period_;
+  }
 
-    int handle_timeout(const ACE_Time_Value&, const void*)
-    {
-      scheduled_ = MonotonicTimePoint::zero_value;
-      (outer_->*function_)();
-      return 0;
+  void expect_ack() {
+    ACE_GUARD(ACE_Thread_Mutex, g, heartbeat_mutex_);
+    ++expected_acks_;
+  }
+
+  void received_expected_ack() {
+    ACE_GUARD(ACE_Thread_Mutex, g, heartbeat_mutex_);
+    --expected_acks_;
+    last_ack_ = MonotonicTimePoint::now();
+    if (expected_acks_ == 0) {
+      heartbeat_.cancel();
+      heartbeat_.schedule(TimeDuration::zero_value);
     }
-
-    RtpsUdpDataLink* outer_;
-    PMF function_;
-    TimeDuration timeout_;
-    MonotonicTimePoint scheduled_;
-
-  } nack_reply_;
+  }
 
   typedef PmfMultiTask<RtpsUdpDataLink> Multi;
-  Multi heartbeat_, heartbeat_reply_;
+  Multi heartbeat_reply_;
 
   typedef PmfPeriodicTask<RtpsUdpDataLink> Periodic;
   Periodic heartbeatchecker_;
