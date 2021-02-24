@@ -2835,7 +2835,7 @@ jobs:
   #   - name: configure OpenDDS
   #     run: |
   #       cd OpenDDS
-  #       ./configure --qt --wireshark= --tests --security --java --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+  #       ./configure --qt --wireshark --tests --security --java --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
   #   - name: check build configuration
   #     shell: bash
   #     run: |
@@ -4925,9 +4925,9 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         cd ACE_TAO\ACE
-        msbuild -p:Configuration=Release,Platform=x64 -m ace.sln
+        msbuild -p:Configuration=Debug,Platform=x64 -m ace.sln
         cd ..\TAO
-        msbuild -p:Configuration=Release,Platform=x64 -m tao.sln
+        msbuild -p:Configuration=Debug,Platform=x64 -m tao.sln
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
@@ -5003,7 +5003,7 @@ jobs:
       run: |
         cd OpenDDS
         call setenv.cmd
-        msbuild -p:Configuration=Release,Platform=x64 -m DDS.sln
+        msbuild -p:Configuration=Debug,Platform=x64 -m DDS.sln
     - name: gitclean
       shell: bash
       run: |
