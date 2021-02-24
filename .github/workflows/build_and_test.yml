@@ -57,9 +57,6 @@ jobs:
   #     with:
   #       path: ${{ github.job }}.tar.xz
   #       key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
-  #   - name: install xerces
-  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
-  #     run: sudo apt-get -y install libxerces-c-dev
   #   - name: checkout MPC
   #     if: steps.cache-artifact.outputs.cache-hit != 'true'
   #     uses: actions/checkout@v2.3.4
@@ -103,8 +100,6 @@ jobs:
   #   needs: ubuntu-18_04_debug_java_ACE_TAO
 
   #   steps:
-  #   - name: install xerces
-  #     run: sudo apt-get -y install libxerces-c-dev
   #   - name: checkout MPC
   #     uses: actions/checkout@v2.3.4
   #     with:
@@ -177,8 +172,6 @@ jobs:
   #   needs: ubuntu-18_04_debug_java_build
 
   #   steps:
-  #   - name: install xerces
-  #     run: sudo apt-get -y install libxerces-c-dev
   #   - name: checkout MPC
   #     uses: actions/checkout@v2.3.4
   #     with:
@@ -252,7 +245,7 @@ jobs:
   #       <command name="check_compiler" options="gcc"/>
   #       <command name="print_perl_version"/>
   #       <command name="print_autobuild_config"/>
-  #       <command name="auto_run_tests" options="script_path=tests dir=$GITHUB_WORKSPACE/OpenDDS -Config RTPS -Config LINUX -Config XERCES3 -Config CXX11 -Config GH_ACTIONS -a -l java/tests/dcps_java_tests.lst"/>
+  #       <command name="auto_run_tests" options="script_path=tests dir=$GITHUB_WORKSPACE/OpenDDS -Config RTPS -Config LINUX -Config CXX11 -Config GH_ACTIONS -a -l java/tests/dcps_java_tests.lst"/>
   #       <command name="log" options="off"/>
   #       <command name="process_logs" options="prettify"/>
   #       </autobuild>
@@ -3851,9 +3844,9 @@ jobs:
   #       cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
   #       if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  # ubuntu-16_04_defaults_security_ACE_TAO:
+  # ubuntu-18_04_defaults_security_ACE_TAO:
 
-  #   runs-on: ubuntu-16.04
+  #   runs-on: ubuntu-18.04
 
   #   steps:
   #   - name: checkout OpenDDS
@@ -3918,11 +3911,11 @@ jobs:
   #       name: ${{ github.job }}_artifact
   #       path: ${{ github.job }}.tar.xz
 
-  # ubuntu-16_04_defaults_security_build:
+  # ubuntu-18_04_defaults_security_build:
 
-  #   runs-on: ubuntu-16.04
+  #   runs-on: ubuntu-18.04
 
-  #   needs: ubuntu-16_04_defaults_security_ACE_TAO
+  #   needs: ubuntu-18_04_defaults_security_ACE_TAO
 
   #   steps:
   #   - name: install xerces
@@ -3945,13 +3938,13 @@ jobs:
   #   - name: download ACE_TAO artifact
   #     uses: actions/download-artifact@v2
   #     with:
-  #       name: ubuntu-16_04_defaults_security_ACE_TAO_artifact
+  #       name: ubuntu-18_04_defaults_security_ACE_TAO_artifact
   #       path: ACE_TAO
   #   - name: extract ACE_TAO artifact
   #     shell: bash
   #     run: |
   #       cd ACE_TAO
-  #       tar xvfJ ubuntu-16_04_defaults_security_ACE_TAO.tar.xz
+  #       tar xvfJ ubuntu-18_04_defaults_security_ACE_TAO.tar.xz
   #   - name: checkout OpenDDS
   #     uses: actions/checkout@v2.3.4
   #     with:
@@ -3989,11 +3982,11 @@ jobs:
   #       name: ${{ github.job }}_artifact
   #       path: ${{ github.job }}.tar.xz
 
-  # ubuntu-16_04_defaults_security_test:
+  # ubuntu-18_04_defaults_security_test:
 
-  #   runs-on: ubuntu-16.04
+  #   runs-on: ubuntu-18.04
 
-  #   needs: ubuntu-16_04_defaults_security_build
+  #   needs: ubuntu-18_04_defaults_security_build
 
   #   steps:
   #   - name: install xerces
@@ -4017,13 +4010,13 @@ jobs:
   #   - name: download ACE_TAO artifact
   #     uses: actions/download-artifact@v2
   #     with:
-  #       name: ubuntu-16_04_defaults_security_ACE_TAO_artifact
+  #       name: ubuntu-18_04_defaults_security_ACE_TAO_artifact
   #       path: ACE_TAO
   #   - name: extract ACE_TAO artifact
   #     shell: bash
   #     run: |
   #       cd ACE_TAO
-  #       tar xvfJ ubuntu-16_04_defaults_security_ACE_TAO.tar.xz
+  #       tar xvfJ ubuntu-18_04_defaults_security_ACE_TAO.tar.xz
   #   - name: checkout OpenDDS
   #     uses: actions/checkout@v2.3.4
   #     with:
@@ -4032,13 +4025,13 @@ jobs:
   #   - name: download OpenDDS artifact
   #     uses: actions/download-artifact@v2
   #     with:
-  #       name: ubuntu-16_04_defaults_security_build_artifact
+  #       name: ubuntu-18_04_defaults_security_build_artifact
   #       path: OpenDDS
   #   - name: extract OpenDDS artifact
   #     shell: bash
   #     run: |
   #       cd OpenDDS
-  #       tar xvfJ ubuntu-16_04_defaults_security_build.tar.xz
+  #       tar xvfJ ubuntu-18_04_defaults_security_build.tar.xz
   #   - name: check build configuration
   #     shell: bash
   #     run: |
@@ -4088,9 +4081,9 @@ jobs:
   #       cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
   #       if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  # ubuntu-16_04_defaults_ACE_TAO:
+  # ubuntu-18_04_defaults_ACE_TAO:
 
-  #   runs-on: ubuntu-16.04
+  #   runs-on: ubuntu-18.04
 
   #   steps:
   #   - name: checkout OpenDDS
@@ -4155,11 +4148,11 @@ jobs:
   #       name: ${{ github.job }}_artifact
   #       path: ${{ github.job }}.tar.xz
 
-  # ubuntu-16_04_defaults_java_no-cft_build:
+  # ubuntu-18_04_defaults_java_no-cft_build:
 
-  #   runs-on: ubuntu-16.04
+  #   runs-on: ubuntu-18.04
 
-  #   needs: ubuntu-16_04_defaults_ACE_TAO
+  #   needs: ubuntu-18_04_defaults_ACE_TAO
 
   #   steps:
   #   - name: install xerces
@@ -4178,13 +4171,13 @@ jobs:
   #   - name: download ACE_TAO artifact
   #     uses: actions/download-artifact@v2
   #     with:
-  #       name: ubuntu-16_04_defaults_ACE_TAO_artifact
+  #       name: ubuntu-18_04_defaults_ACE_TAO_artifact
   #       path: ACE_TAO
   #   - name: extract ACE_TAO artifact
   #     shell: bash
   #     run: |
   #       cd ACE_TAO
-  #       tar xvfJ ubuntu-16_04_defaults_ACE_TAO.tar.xz
+  #       tar xvfJ ubuntu-18_04_defaults_ACE_TAO.tar.xz
   #   - name: checkout OpenDDS
   #     uses: actions/checkout@v2.3.4
   #     with:
@@ -4249,11 +4242,11 @@ jobs:
   #       name: ${{ github.job }}_artifact
   #       path: ${{ github.job }}.tar.xz
 
-#   ubuntu-16_04_defaults_java_no-cft_test:
+#   ubuntu-18_04_defaults_java_no-cft_test:
 
-#     runs-on: ubuntu-16.04
+#     runs-on: ubuntu-18.04
 
-#     needs: ubuntu-16_04_defaults_java_no-cft_build
+#     needs: ubuntu-18_04_defaults_java_no-cft_build
 
 #     steps:
 #     - name: install xerces
@@ -4277,13 +4270,13 @@ jobs:
 #     - name: download ACE_TAO artifact
 #       uses: actions/download-artifact@v2
 #       with:
-#         name: ubuntu-16_04_defaults_ACE_TAO_artifact
+#         name: ubuntu-18_04_defaults_ACE_TAO_artifact
 #         path: ACE_TAO
 #     - name: extract ACE_TAO artifact
 #       shell: bash
 #       run: |
 #         cd ACE_TAO
-#         tar xvfJ ubuntu-16_04_defaults_ACE_TAO.tar.xz
+#         tar xvfJ ubuntu-18_04_defaults_ACE_TAO.tar.xz
 #     - name: checkout OpenDDS
 #       uses: actions/checkout@v2.3.4
 #       with:
@@ -4292,13 +4285,13 @@ jobs:
 #     - name: download OpenDDS artifact
 #       uses: actions/download-artifact@v2
 #       with:
-#         name: ubuntu-16_04_defaults_java_no-cft_build_artifact
+#         name: ubuntu-18_04_defaults_java_no-cft_build_artifact
 #         path: OpenDDS
 #     - name: extract OpenDDS artifact
 #       shell: bash
 #       run: |
 #         cd OpenDDS
-#         tar xvfJ ubuntu-16_04_defaults_java_no-cft_build.tar.xz
+#         tar xvfJ ubuntu-18_04_defaults_java_no-cft_build.tar.xz
 #     - name: check build configuration
 #       shell: bash
 #       run: |
@@ -4875,7 +4868,7 @@ jobs:
 #         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
 #         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  clayton_windows-2019_defaults_ACE_TAO:
+  windows-2019_defaults_ACE_TAO:
 
     runs-on: windows-2019
 
@@ -4951,11 +4944,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  clayton_windows-2019_defaults_security_build:
+  windows-2019_defaults_security_build:
 
     runs-on: windows-2019
 
-    needs: clayton_windows-2019_defaults_ACE_TAO
+    needs: windows-2019_defaults_ACE_TAO
 
     steps:
     - name: install openssl-windows & xerces-c
@@ -4983,14 +4976,14 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: clayton_windows-2019_defaults_ACE_TAO_artifact
+        name: windows-2019_defaults_ACE_TAO_artifact
         path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd OpenDDS/ACE_TAO
-        tar xvfJ clayton_windows-2019_defaults_ACE_TAO.tar.xz
-        rm -f clayton_windows-2019_defaults_ACE_TAO.tar.xz
+        tar xvfJ windows-2019_defaults_ACE_TAO.tar.xz
+        rm -f windows-2019_defaults_ACE_TAO.tar.xz
     - uses: ammaraskar/msvc-problem-matcher@0.1
     - name: set up msvc env
       uses: ilammy/msvc-dev-cmd@v1.5.0
@@ -5033,11 +5026,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-#   clayton_windows-2019_defaults_security_test:
+#   windows-2019_defaults_security_test:
 
 #     runs-on: windows-2019
 
-#     needs: clayton_windows-2019_defaults_security_build
+#     needs: windows-2019_defaults_security_build
 
 #     steps:
 #     - name: install openssl-windows & xerces-c
@@ -5070,25 +5063,25 @@ jobs:
 #     - name: download ACE_TAO artifact
 #       uses: actions/download-artifact@v2
 #       with:
-#         name: clayton_windows-2019_defaults_ACE_TAO_artifact
+#         name: windows-2019_defaults_ACE_TAO_artifact
 #         path: OpenDDS/ACE_TAO
 #     - name: extract ACE_TAO artifact
 #       shell: bash
 #       run: |
 #         cd OpenDDS/ACE_TAO
-#         tar xvfJ clayton_windows-2019_defaults_ACE_TAO.tar.xz
-#         rm -f clayton_windows-2019_defaults_ACE_TAO.tar.xz
+#         tar xvfJ windows-2019_defaults_ACE_TAO.tar.xz
+#         rm -f windows-2019_defaults_ACE_TAO.tar.xz
 #     - name: download OpenDDS artifact
 #       uses: actions/download-artifact@v2
 #       with:
-#         name: clayton_windows-2019_defaults_security_build_artifact
+#         name: windows-2019_defaults_security_build_artifact
 #         path: OpenDDS
 #     - name: extract OpenDDS artifact
 #       shell: bash
 #       run: |
 #         cd OpenDDS
-#         tar xvfJ clayton_windows-2019_defaults_security_build.tar.xz
-#         rm -f clayton_windows-2019_defaults_security_build.tar.xz
+#         tar xvfJ windows-2019_defaults_security_build.tar.xz
+#         rm -f windows-2019_defaults_security_build.tar.xz
 #     - name: check build configuration
 #       shell: cmd
 #       run: |
@@ -5145,156 +5138,156 @@ jobs:
 #         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
 #         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  windows-2019_defaults_java_ACE_TAO:
+  # windows-2019_defaults_java_ACE_TAO:
 
-    runs-on: windows-2019
+  #   runs-on: windows-2019
 
-    steps:
-    - name: checkout OpenDDS
-      uses: actions/checkout@v2.3.4
-      with:
-        path: OpenDDS
-        submodules: true
-    - name: checkout ACE_TAO
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/ACE_TAO
-        ref: ace6tao2
-        path: OpenDDS/ACE_TAO
-    - name: get ACE_TAO commit
-      shell: bash
-      run: |
-        cd OpenDDS/ACE_TAO
-        export ACE_COMMIT=$(git rev-parse HEAD)
-        echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
-    - name: Cache Artifact
-      id: cache-artifact
-      uses: actions/cache@v2.1.4
-      with:
-        path: ${{ github.job }}.tar.xz
-        key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
-    - name: install openssl-windows & xerces-c
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      uses: lukka/run-vcpkg@v6
-      with:
-        vcpkgGitCommitId: ec6fe06
-        vcpkgArguments: --recurse openssl-windows xerces-c
-        vcpkgTriplet: x64-windows
-    - name: checkout MPC
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/MPC
-        path: MPC
-    - name: set up msvc env
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      uses: ilammy/msvc-dev-cmd@v1.5.0
-    - name: configure OpenDDS
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      shell: cmd
-      run: |
-        cd OpenDDS
-        configure --tests --security --ace=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=%GITHUB_WORKSPACE%/MPC --xerces3=%VCPKG_ROOT%/installed/x64-windows --openssl=%VCPKG_ROOT%/installed/x64-windows --mpcopts=-hierarchy
-    - name: build ACE & TAO
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      shell: cmd
-      run: |
-        cd OpenDDS
-        call setenv.cmd
-        cd ACE_TAO\ACE
-        msbuild -p:Configuration=Release,Platform=x64 -m ace.sln
-        cd ..\TAO
-        msbuild -p:Configuration=Release,Platform=x64 -m tao.sln
-    - name: create ACE_TAO tar.xz artifact
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      shell: bash
-      run: |
-        cd OpenDDS/ACE_TAO
-        perl -ni.bak -e "print unless /opendds/" ACE/bin/MakeProjectCreator/config/default.features # remove opendds features from here, let individual build configure scripts handle those
-        find . -iname "*\.obj" | xargs rm
-        tar cvf ../../${{ github.job }}.tar ACE/ace/config.h
-        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../../${{ github.job }}.tar
-        xz -3 ../../${{ github.job }}.tar
-    - name: upload ACE_TAO artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ github.job }}_artifact
-        path: ${{ github.job }}.tar.xz
+  #   steps:
+  #   - name: checkout OpenDDS
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       path: OpenDDS
+  #       submodules: true
+  #   - name: checkout ACE_TAO
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       repository: DOCGroup/ACE_TAO
+  #       ref: ace6tao2
+  #       path: OpenDDS/ACE_TAO
+  #   - name: get ACE_TAO commit
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS/ACE_TAO
+  #       export ACE_COMMIT=$(git rev-parse HEAD)
+  #       echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
+  #   - name: Cache Artifact
+  #     id: cache-artifact
+  #     uses: actions/cache@v2.1.4
+  #     with:
+  #       path: ${{ github.job }}.tar.xz
+  #       key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
+  #   - name: install openssl-windows & xerces-c
+  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
+  #     uses: lukka/run-vcpkg@v6
+  #     with:
+  #       vcpkgGitCommitId: ec6fe06
+  #       vcpkgArguments: --recurse openssl-windows xerces-c
+  #       vcpkgTriplet: x64-windows
+  #   - name: checkout MPC
+  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       repository: DOCGroup/MPC
+  #       path: MPC
+  #   - name: set up msvc env
+  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
+  #     uses: ilammy/msvc-dev-cmd@v1.5.0
+  #   - name: configure OpenDDS
+  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
+  #     shell: cmd
+  #     run: |
+  #       cd OpenDDS
+  #       configure --tests --ace=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=%GITHUB_WORKSPACE%/MPC --xerces3=%VCPKG_ROOT%/installed/x64-windows --openssl=%VCPKG_ROOT%/installed/x64-windows --mpcopts=-hierarchy
+  #   - name: build ACE & TAO
+  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
+  #     shell: cmd
+  #     run: |
+  #       cd OpenDDS
+  #       call setenv.cmd
+  #       cd ACE_TAO\ACE
+  #       msbuild -p:Configuration=Release,Platform=x64 -m ace.sln
+  #       cd ..\TAO
+  #       msbuild -p:Configuration=Release,Platform=x64 -m tao.sln
+  #   - name: create ACE_TAO tar.xz artifact
+  #     if: steps.cache-artifact.outputs.cache-hit != 'true'
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS/ACE_TAO
+  #       perl -ni.bak -e "print unless /opendds/" ACE/bin/MakeProjectCreator/config/default.features # remove opendds features from here, let individual build configure scripts handle those
+  #       find . -iname "*\.obj" | xargs rm
+  #       tar cvf ../../${{ github.job }}.tar ACE/ace/config.h
+  #       git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../../${{ github.job }}.tar
+  #       xz -3 ../../${{ github.job }}.tar
+  #   - name: upload ACE_TAO artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: ${{ github.job }}_artifact
+  #       path: ${{ github.job }}.tar.xz
 
-  windows-2019_defaults_java_no-bit_build:
+  # windows-2019_defaults_java_no-bit_build:
 
-    runs-on: windows-2019
+  #   runs-on: windows-2019
 
-    needs: windows-2019_defaults_java_ACE_TAO
+  #   needs: windows-2019_defaults_java_ACE_TAO
 
-    steps:
-    - name: install xerces-c
-      uses: lukka/run-vcpkg@v6
-      with:
-        vcpkgGitCommitId: ec6fe06
-        vcpkgArguments: --recurse xerces-c
-        vcpkgTriplet: x64-windows
-    - name: checkout MPC
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/MPC
-        path: MPC
-    - name: checkout OpenDDS
-      uses: actions/checkout@v2.3.4
-      with:
-        path: OpenDDS
-        submodules: true
-    - name: checkout ACE_TAO
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/ACE_TAO
-        ref: ace6tao2
-        path: OpenDDS/ACE_TAO
-    - name: download ACE_TAO artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: windows-2019_defaults_java_ACE_TAO_artifact
-        path: OpenDDS/ACE_TAO
-    - name: extract ACE_TAO artifact
-      shell: bash
-      run: |
-        cd OpenDDS/ACE_TAO
-        tar xvfJ windows-2019_defaults_java_ACE_TAO.tar.xz
-        rm -f windows-2019_defaults_java_ACE_TAO.tar.xz
-    - uses: ammaraskar/msvc-problem-matcher@0.1
-    - name: set up msvc env
-      uses: ilammy/msvc-dev-cmd@v1.5.0
-    - name: configure OpenDDS
-      shell: cmd
-      run: |
-        cd OpenDDS
-        configure --tests --java --no-built-in-topics --rapidjson --ace=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=%GITHUB_WORKSPACE%/MPC --xerces3=%VCPKG_ROOT%/installed/x64-windows
-    - name: check build configuration
-      shell: cmd
-      run: |
-        cd OpenDDS
-        call setenv.cmd
-        perl tools\scripts\show_build_config.pl
-    - name: build OpenDDS
-      shell: cmd
-      run: |
-        cd OpenDDS
-        call setenv.cmd
-        msbuild -p:Configuration=Release,Platform=x64 -m DDS.sln
-    - name: create OpenDDS tar.xz artifact
-      shell: bash
-      run: |
-        cd OpenDDS
-        rm -rf ACE_TAO
-        find . -iname "*\.obj" -o -iname "*\.pdb" -o -iname "*\.idb" -o -type f -iname "*\.tlog" | xargs rm
-        tar cvf ../${{ github.job }}.tar setenv.cmd
-        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../${{ github.job }}.tar
-        xz -3 ../${{ github.job }}.tar
-    - name: upload OpenDDS artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ github.job }}_artifact
-        path: ${{ github.job }}.tar.xz
+  #   steps:
+  #   - name: install xerces-c
+  #     uses: lukka/run-vcpkg@v6
+  #     with:
+  #       vcpkgGitCommitId: ec6fe06
+  #       vcpkgArguments: --recurse xerces-c
+  #       vcpkgTriplet: x64-windows
+  #   - name: checkout MPC
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       repository: DOCGroup/MPC
+  #       path: MPC
+  #   - name: checkout OpenDDS
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       path: OpenDDS
+  #       submodules: true
+  #   - name: checkout ACE_TAO
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       repository: DOCGroup/ACE_TAO
+  #       ref: ace6tao2
+  #       path: OpenDDS/ACE_TAO
+  #   - name: download ACE_TAO artifact
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: windows-2019_defaults_java_ACE_TAO_artifact
+  #       path: OpenDDS/ACE_TAO
+  #   - name: extract ACE_TAO artifact
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS/ACE_TAO
+  #       tar xvfJ windows-2019_defaults_java_ACE_TAO.tar.xz
+  #       rm -f windows-2019_defaults_java_ACE_TAO.tar.xz
+  #   - uses: ammaraskar/msvc-problem-matcher@0.1
+  #   - name: set up msvc env
+  #     uses: ilammy/msvc-dev-cmd@v1.5.0
+  #   - name: configure OpenDDS
+  #     shell: cmd
+  #     run: |
+  #       cd OpenDDS
+  #       configure --tests --java --no-built-in-topics --rapidjson --ace=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=%GITHUB_WORKSPACE%/MPC --xerces3=%VCPKG_ROOT%/installed/x64-windows
+  #   - name: check build configuration
+  #     shell: cmd
+  #     run: |
+  #       cd OpenDDS
+  #       call setenv.cmd
+  #       perl tools\scripts\show_build_config.pl
+  #   - name: build OpenDDS
+  #     shell: cmd
+  #     run: |
+  #       cd OpenDDS
+  #       call setenv.cmd
+  #       msbuild -p:Configuration=Release,Platform=x64 -m DDS.sln
+  #   - name: create OpenDDS tar.xz artifact
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS
+  #       rm -rf ACE_TAO
+  #       find . -iname "*\.obj" -o -iname "*\.pdb" -o -iname "*\.idb" -o -type f -iname "*\.tlog" | xargs rm
+  #       tar cvf ../${{ github.job }}.tar setenv.cmd
+  #       git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../${{ github.job }}.tar
+  #       xz -3 ../${{ github.job }}.tar
+  #   - name: upload OpenDDS artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: ${{ github.job }}_artifact
+  #       path: ${{ github.job }}.tar.xz
 
 #   windows-2019_defaults_java_no-bit_test:
 
