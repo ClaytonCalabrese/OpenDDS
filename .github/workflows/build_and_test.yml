@@ -4868,7 +4868,7 @@ jobs:
 #         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
 #         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  c_windows-2019_defaults_ACE_TAO:
+  cl_windows-2019_defaults_ACE_TAO:
 
     runs-on: windows-2019
 
@@ -4922,6 +4922,11 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: cmd
       run: |
+        ls OpenDDS\vcpkg\installed\x64-windows
+        echo hello world
+        ls OpenDDS\vcpkg\installed\x64-windows\debug\lib
+        echo goodbye
+        ls OpenDDS\vcpkg\installed\x64-windows\release\lib
         cd OpenDDS
         call setenv.cmd
         cd ACE_TAO\ACE
@@ -4944,11 +4949,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  c_windows-2019_defaults_security_build:
+  cl_windows-2019_defaults_security_build:
 
     runs-on: windows-2019
 
-    needs: c_windows-2019_defaults_ACE_TAO
+    needs: cl_windows-2019_defaults_ACE_TAO
 
     steps:
     - name: install openssl-windows & xerces-c
@@ -4976,14 +4981,14 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: c_windows-2019_defaults_ACE_TAO_artifact
+        name: cl_windows-2019_defaults_ACE_TAO_artifact
         path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd OpenDDS/ACE_TAO
-        tar xvfJ c_windows-2019_defaults_ACE_TAO.tar.xz
-        rm -f c_windows-2019_defaults_ACE_TAO.tar.xz
+        tar xvfJ cl_windows-2019_defaults_ACE_TAO.tar.xz
+        rm -f cl_windows-2019_defaults_ACE_TAO.tar.xz
     - uses: ammaraskar/msvc-problem-matcher@0.1
     - name: set up msvc env
       uses: ilammy/msvc-dev-cmd@v1.5.0
