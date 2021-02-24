@@ -4484,7 +4484,7 @@ jobs:
       run: |
         cd OpenDDS
         call setenv.cmd
-        msbuild -p:Configuration=Static Debug,Platform=x64 -m DDS.sln
+        msbuild -p:Configuration=Debug,Platform=x64 -m DDS.sln
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
