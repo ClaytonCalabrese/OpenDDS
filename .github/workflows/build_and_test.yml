@@ -2204,7 +2204,7 @@ jobs:
   #       cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
   #       if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  ubuntu-18_04_gcc10_ACE_TAO:
+  c_ubuntu-18_04_gcc10_ACE_TAO:
 
     runs-on: ubuntu-18.04
 
@@ -2276,11 +2276,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  ubuntu-18_04_gcc10_build:
+  c_ubuntu-18_04_gcc10_build:
 
     runs-on: ubuntu-18.04
 
-    needs: ubuntu-18_04_gcc10_ACE_TAO
+    needs: c_ubuntu-18_04_gcc10_ACE_TAO
 
     steps:
     - name: install gcc
@@ -2305,13 +2305,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: ubuntu-18_04_gcc10_ACE_TAO_artifact
+        name: c_ubuntu-18_04_gcc10_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ ubuntu-18_04_gcc10_ACE_TAO.tar.xz
+        tar xvfJ c_ubuntu-18_04_gcc10_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -2349,11 +2349,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  ubuntu-18_04_gcc10_test:
+  c_ubuntu-18_04_gcc10_test:
 
     runs-on: ubuntu-18.04
 
-    needs: ubuntu-18_04_gcc10_build
+    needs: c_ubuntu-18_04_gcc10_build
 
     steps:
     - name: install gcc
@@ -2383,13 +2383,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: ubuntu-18_04_wchar_ACE_TAO_artifact
+        name: c_ubuntu-18_04_wchar_ACE_TAO_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ ubuntu-18_04_wchar_ACE_TAO.tar.xz
+        tar xvfJ c_ubuntu-18_04_wchar_ACE_TAO.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -2398,13 +2398,13 @@ jobs:
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
       with:
-        name: ubuntu-18_04_gcc10_build_artifact
+        name: c_ubuntu-18_04_gcc10_build_artifact
         path: OpenDDS
     - name: extract OpenDDS artifact
       shell: bash
       run: |
         cd OpenDDS
-        tar xvfJ ubuntu-18_04_gcc10_build.tar.xz
+        tar xvfJ c_ubuntu-18_04_gcc10_build.tar.xz
     - name: check build configuration
       shell: bash
       run: |
