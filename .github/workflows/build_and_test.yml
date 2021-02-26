@@ -5517,7 +5517,6 @@ jobs:
       run: |
         mv OpenDDS/ACE_TAO /c/
         mv MPC /c/
-        mv OpenDDS /c/
     - uses: ammaraskar/msvc-problem-matcher@0.1
     - name: set up msvc env
       uses: ilammy/msvc-dev-cmd@v1.5.0
