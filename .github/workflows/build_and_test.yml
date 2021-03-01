@@ -146,14 +146,14 @@ jobs:
     - name: build CMake
       shell: bash
       run: |
-      cd OpenDDS
-      . setenv.sh
-      cd tests/cmake_integration/Messenger/Messenger_1
-      rm -fr build
-      mkdir build
-      cd build
-      cmake -DCMAKE_PREFIX_PATH=$OPENDDS_INSTALL_PREFIX ..
-      cmake --build .
+        cd OpenDDS
+        . setenv.sh
+        cd tests/cmake_integration/Messenger/Messenger_1
+        rm -fr build
+        mkdir build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=$OPENDDS_INSTALL_PREFIX ..
+        cmake --build .
     - name: gitclean
       shell: bash
       run: |
