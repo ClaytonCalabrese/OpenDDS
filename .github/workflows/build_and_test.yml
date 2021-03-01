@@ -146,8 +146,8 @@ jobs:
     - name: build CMake
       shell: bash
       run: |
-      set -e
-      source install_setenv.sh
+      cd OpenDDS
+      . setenv.sh
       cd tests/cmake_integration/Messenger/Messenger_1
       rm -fr build
       mkdir build
