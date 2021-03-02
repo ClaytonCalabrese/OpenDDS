@@ -3965,6 +3965,13 @@ jobs:
         cd OpenDDS
         . setenv.sh
         make -j4 dir=$DDS_ROOT/DevGuideExamples/DCPS/Messenger
+    - name: run Dev Guide tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd DevGuideExamples/DCPS/Messenger
+        perl run_test.pl
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
