@@ -3830,7 +3830,7 @@ jobs:
 #         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
 #         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  ACE_TAO_c_ubuntu-18_04_static_qt_ws_security:
+  ACE_TAO_cl_ubuntu-18_04_static_qt_ws_security:
 
     runs-on: ubuntu-18.04
 
@@ -3897,7 +3897,7 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  build_c_ubuntu-18_04_static_qt_ws_security:
+  build_cl_ubuntu-18_04_static_qt_ws_security:
 
     runs-on: ubuntu-18.04
 
@@ -3939,7 +3939,7 @@ jobs:
     - name: configure OpenDDS
       run: |
         cd OpenDDS
-        ./configure --static --qt --tests --security --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --static --qt --security --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: check build configuration
       shell: bash
       run: |
