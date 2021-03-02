@@ -154,6 +154,13 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=$OPENDDS_INSTALL_PREFIX ..
         cmake --build .
+    - name: test CMake
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests/cmake_integration/Messenger/Messenger_1/build
+        perl run_test.pl rtps
     - name: gitclean
       shell: bash
       run: |
