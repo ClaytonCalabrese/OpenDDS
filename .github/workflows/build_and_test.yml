@@ -4493,7 +4493,7 @@ jobs:
       run: |
         cd OpenDDS
         call setenv.cmd
-        ls -l DevGuideExamples\DCPS\Messenger
+        ls -l DevGuideExamples\DCPS\Messenger\Static_Debug
         make -j4 dir=$DDS_ROOT\DevGuideExamples\DCPS\Messenger
     - name: run Dev Guide tests
       shell: cmd
