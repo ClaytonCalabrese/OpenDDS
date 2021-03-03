@@ -4474,7 +4474,7 @@ jobs:
       shell: cmd
       run: |
         cd OpenDDS
-        call setenv.cmd
+        . setenv.cmd
         perl tools\scripts\show_build_config.pl
     - name: build OpenDDS
       shell: cmd
