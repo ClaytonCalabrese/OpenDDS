@@ -4486,20 +4486,21 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS
-        source setenv.cmd
-        mwc.pl -type gnuace -workers 4 $DDS_ROOT/DevGuideExamples/DCPS/Messenger
+        setenv.cmd
+        mwc.pl -type vs2019 -workers 4 $DDS_ROOT\DevGuideExamples\DCPS\Messenger
     - name: build Dev Guide tests
       shell: bash
       run: |
         cd OpenDDS
-        source setenv.cmd
-        make -j4 dir=$DDS_ROOT/DevGuideExamples/DCPS/Messenger
+        setenv.cmd
+        ls -l
+        make -j4 dir=$DDS_ROOT\DevGuideExamples\DCPS\Messenger
     - name: run Dev Guide tests
       shell: bash
       run: |
         cd OpenDDS
-        source setenv.cmd
-        cd DevGuideExamples/DCPS/Messenger
+        setenv.cmd
+        cd DevGuideExamples\DCPS\Messenger
         perl run_test.pl
     - name: create OpenDDS tar.xz artifact
       shell: bash
