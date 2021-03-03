@@ -280,7 +280,7 @@ jobs:
   #       cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
   #       if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  ACE_TAO_c_ubuntu-18_04_o1d0n1_java12:
+  ACE_TAO_cl_ubuntu-18_04_o1d0n1_java12:
 
     runs-on: ubuntu-18.04
 
@@ -318,7 +318,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --optimize --tests --no-debug --features=versioned_namspace=1 --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --optimize --tests --no-debug --features=versioned_namespace=1 --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
@@ -344,11 +344,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  build_c_ubuntu-18_04_o1d0n1_java12:
+  build_cl_ubuntu-18_04_o1d0n1_java12:
 
     runs-on: ubuntu-18.04
 
-    needs: ACE_TAO_c_ubuntu-18_04_o1d0n1_java12
+    needs: ACE_TAO_cl_ubuntu-18_04_o1d0n1_java12
 
     steps:
     - name: checkout MPC
@@ -365,13 +365,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: ACE_TAO_c_ubuntu-18_04_o1d0n1_java12_artifact
+        name: ACE_TAO_cl_ubuntu-18_04_o1d0n1_java12_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ ACE_TAO_c_ubuntu-18_04_o1d0n1_java12.tar.xz
+        tar xvfJ ACE_TAO_cl_ubuntu-18_04_o1d0n1_java12.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -398,6 +398,7 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS
+        type cmake/config.cmake
         . setenv.sh
         cd tests/cmake_integration/Messenger/Messenger_1
         rm -fr build
@@ -427,11 +428,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  # test_c_ubuntu-18_04_o1d0n1_java12:
+  # test_cl_ubuntu-18_04_o1d0n1_java12:
 
   #   runs-on: ubuntu-18.04
 
-  #   needs: build_c_ubuntu-18_04_o1d0n1_java12
+  #   needs: build_cl_ubuntu-18_04_o1d0n1_java12
 
   #   steps:
   #   - name: checkout MPC
@@ -453,13 +454,13 @@ jobs:
   #   - name: download ACE_TAO artifact
   #     uses: actions/download-artifact@v2
   #     with:
-  #       name: ACE_TAO_c_ubuntu-18_04_o1d0n1_java12_artifact
+  #       name: ACE_TAO_cl_ubuntu-18_04_o1d0n1_java12_artifact
   #       path: ACE_TAO
   #   - name: extract ACE_TAO artifact
   #     shell: bash
   #     run: |
   #       cd ACE_TAO
-  #       tar xvfJ ACE_TAO_c_ubuntu-18_04_o1d0n1_java12.tar.xz
+  #       tar xvfJ ACE_TAO_cl_ubuntu-18_04_o1d0n1_java12.tar.xz
   #   - name: checkout OpenDDS
   #     uses: actions/checkout@v2.3.4
   #     with:
@@ -468,13 +469,13 @@ jobs:
   #   - name: download OpenDDS artifact
   #     uses: actions/download-artifact@v2
   #     with:
-  #       name: build_c_ubuntu-18_04_o1d0n1_java12_artifact
+  #       name: build_cl_ubuntu-18_04_o1d0n1_java12_artifact
   #       path: OpenDDS
   #   - name: extract OpenDDS artifact
   #     shell: bash
   #     run: |
   #       cd OpenDDS
-  #       tar xvfJ build_c_ubuntu-18_04_o1d0n1_java12.tar.xz
+  #       tar xvfJ build_cl_ubuntu-18_04_o1d0n1_java12.tar.xz
   #   - name: check build configuration
   #     shell: bash
   #     run: |
