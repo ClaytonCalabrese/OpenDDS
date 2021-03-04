@@ -398,7 +398,6 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS
-        type cmake/config.cmake
         . setenv.sh
         cd tests/cmake_integration/Messenger/Messenger_1
         rm -fr build
