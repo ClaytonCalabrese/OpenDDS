@@ -4482,26 +4482,13 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         msbuild -p:Configuration=Debug,Platform=x64 -m DDS_no_tests.sln
-    - name: set up Dev Guide tests
-      shell: cmd
-      run: |
-        cd OpenDDS
-        call setenv.cmd
-        mwc.pl -type vs2019 -workers 4 $DDS_ROOT\DevGuideExamples\DCPS\Messenger
-    - name: build Dev Guide tests
-      shell: cmd
-      run: |
-        cd OpenDDS
-        call setenv.cmd
-        ls -l DevGuideExamples\DCPS\Messenger\Static_Debug
-        make -j4 dir=$DDS_ROOT\DevGuideExamples\DCPS\Messenger
     - name: run Dev Guide tests
       shell: cmd
       run: |
         cd OpenDDS
         call setenv.cmd
         cd DevGuideExamples\DCPS\Messenger
-        perl run_test.pl
+        perl run_test.pl -ExeSubDir Static_Debug
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
