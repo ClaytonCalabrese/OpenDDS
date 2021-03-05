@@ -4616,7 +4616,7 @@ jobs:
   #       cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
   #       if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures:
+  ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2:
 
     runs-on: windows-2019
 
@@ -4673,9 +4673,9 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         cd ACE_TAO\ACE
-        msbuild -p:Configuration=Release,Platform=x64 -m ace.sln
+        msbuild -p:Configuration=Debug,Platform=x64 -m ace.sln
         cd ..\TAO
-        msbuild -p:Configuration=Release,Platform=x64 -m tao.sln
+        msbuild -p:Configuration=Debug,Platform=x64 -m tao.sln
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
@@ -4692,11 +4692,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  build_cl_windows-2019_ipv6_cpp03_static_wofeatures:
+  build_cl_windows-2019_ipv6_cpp03_static_wofeatures_2:
 
     runs-on: windows-2019
 
-    needs: ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures
+    needs: ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2
 
     steps:
     - name: install openssl-windows & xerces-c
@@ -4724,14 +4724,14 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_artifact
+        name: ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2_artifact
         path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd OpenDDS/ACE_TAO
-        tar xvfJ ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures.tar.xz
-        rm -f ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures.tar.xz
+        tar xvfJ ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2.tar.xz
+        rm -f ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2.tar.xz
     - uses: ammaraskar/msvc-problem-matcher@0.1
     - name: set up msvc env
       uses: ilammy/msvc-dev-cmd@v1.5.0
@@ -4774,11 +4774,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-#   # test_cl_windows-2019_ipv6_cpp03_static_wofeatures:
+#   # test_cl_windows-2019_ipv6_cpp03_static_wofeatures_2:
 
 #   #   runs-on: windows-2019
 
-#   #   needs: build_cl_windows-2019_ipv6_cpp03_static_wofeatures
+#   #   needs: build_cl_windows-2019_ipv6_cpp03_static_wofeatures_2
 
 #   #   steps:
 #   #   - name: install openssl-windows & xerces-c
@@ -4811,25 +4811,25 @@ jobs:
 #   #   - name: download ACE_TAO artifact
 #   #     uses: actions/download-artifact@v2
 #   #     with:
-#   #       name: ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_artifact
+#   #       name: ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2_artifact
 #   #       path: OpenDDS/ACE_TAO
 #   #   - name: extract ACE_TAO artifact
 #   #     shell: bash
 #   #     run: |
 #   #       cd OpenDDS/ACE_TAO
-#   #       tar xvfJ ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures.tar.xz
-#   #       rm -f ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures.tar.xz
+#   #       tar xvfJ ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2.tar.xz
+#   #       rm -f ACE_TAO_cl_windows-2019_ipv6_cpp03_static_wofeatures_2.tar.xz
 #   #   - name: download OpenDDS artifact
 #   #     uses: actions/download-artifact@v2
 #   #     with:
-#   #       name: build_cl_windows-2019_ipv6_cpp03_static_wofeatures_artifact
+#   #       name: build_cl_windows-2019_ipv6_cpp03_static_wofeatures_2_artifact
 #   #       path: OpenDDS
 #   #   - name: extract OpenDDS artifact
 #   #     shell: bash
 #   #     run: |
 #   #       cd OpenDDS
-#   #       tar xvfJ build_cl_windows-2019_ipv6_cpp03_static_wofeatures.tar.xz
-#   #       rm -f build_cl_windows-2019_ipv6_cpp03_static_wofeatures.tar.xz
+#   #       tar xvfJ build_cl_windows-2019_ipv6_cpp03_static_wofeatures_2.tar.xz
+#   #       rm -f build_cl_windows-2019_ipv6_cpp03_static_wofeatures_2.tar.xz
 #   #   - name: check build configuration
 #   #     shell: cmd
 #   #     run: |
