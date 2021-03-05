@@ -407,7 +407,6 @@ jobs:
       run: |
         cd OpenDDS
         set -e
-    # Make sure install using DESTDIR is also working
         export DESTDIR=$(realpath install_temp)
         export INSTALL_PREFIX=$(realpath install_prefix)
         make install
