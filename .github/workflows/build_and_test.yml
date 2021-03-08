@@ -418,8 +418,8 @@ jobs:
         source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
         export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
         export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
-        export MPC_ROOT=$(realpath ACE_TAO/ACE/MPC)
-        export PERL5LIB=$(realpath bin):$(realpath ACE_TAO/ACE/bin)
+        export MPC_ROOT=$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
+        export PERL5LIB=$(realpath bin):$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
         EOF
     - name: make install OpenDDS
       shell: bash
