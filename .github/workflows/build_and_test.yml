@@ -604,11 +604,12 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --tests --safety-profile --no-rapidjson --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --tests --safety-profile --no-rapidjson --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
-        cd OpenDDS/build/target
+        cd OpenDDS
+        make -j4
         . setenv.sh
         cd ../../ACE_TAO/ACE
         make -j4
