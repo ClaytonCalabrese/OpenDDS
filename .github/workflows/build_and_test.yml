@@ -609,7 +609,6 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        . setenv.sh
         cd ACE_TAO/ACE
         make -j4
         cd ../TAO
