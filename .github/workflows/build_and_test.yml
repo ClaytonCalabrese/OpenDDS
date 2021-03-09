@@ -4504,7 +4504,10 @@ jobs:
       run: |
         cd OpenDDS
         call setenv.cmd
-        cd tests/cmake_integration/Messenger/Messenger_1/build
+        cd tests/cmake_integration/Messenger/Messenger_1
+        dir
+        cd build
+        dir
         perl run_test.pl rtps
     - name: create OpenDDS tar.xz artifact
       shell: bash
