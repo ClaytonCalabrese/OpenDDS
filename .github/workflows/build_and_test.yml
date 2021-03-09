@@ -573,24 +573,11 @@ jobs:
       with:
         path: OpenDDS
         submodules: true
-    - name: checkout ACE_TAO
+    - name: checkout autobuild
       uses: actions/checkout@v2.3.4
       with:
-        repository: DOCGroup/ACE_TAO
-        ref: ace6tao2
-        path: OpenDDS/ACE_TAO
-    - name: get ACE_TAO commit
-      shell: bash
-      run: |
-        cd OpenDDS/ACE_TAO
-        export ACE_COMMIT=$(git rev-parse HEAD)
-        echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
-    - name: Cache Artifact
-      id: cache-artifact
-      uses: actions/cache@v2.1.4
-      with:
-        path: ${{ github.job }}.tar.xz
-        key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
+        repository: DOCGroup/autobuild
+        path: autobuild
     - name: install xerces
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: sudo apt-get -y install libxerces-c-dev
@@ -641,11 +628,7 @@ jobs:
         <command name="process_logs" options="prettify"/>
         </autobuild>
         EOF
-    - name: find autobuild
-      shell: bash
-      run: |
-        find . -iname "*autobuild.pl*"
-        $GITHUB_WORKSPACE/build/target/autobuild/autobuild.pl "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/config.xml"
+        $GITHUB_WORKSPACE/autobuild/autobuild.pl "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/config.xml"
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
