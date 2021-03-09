@@ -410,9 +410,9 @@ jobs:
         export DESTDIR=$(realpath install_temp)
         export INSTALL_PREFIX=$(realpath install_prefix)
         make install
-        cp -r $DESTDIR/$INSTALL_PREFIX .
+        cp -r /home/runner/work/OpenDDS/OpenDDS/install_prefix/ .
         cat << EOF > install_setenv.sh
-        export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
+        export OPENDDS_INSTALL_PREFIX=/home/runner/work/OpenDDS/OpenDDS/install_prefix/
         source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
         source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
         source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
