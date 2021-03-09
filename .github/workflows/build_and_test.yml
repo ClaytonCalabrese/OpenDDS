@@ -395,6 +395,10 @@ jobs:
       run: |
         cd OpenDDS
         ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+    - name: make OpenDDS
+      run: |
+        cd OpenDDS
+        make -sj6
     - name: check build configuration
       shell: bash
       run: |
@@ -413,9 +417,9 @@ jobs:
         cp -r /home/runner/work/OpenDDS/OpenDDS/install_prefix/ .
         cat << EOF > install_setenv.sh
         export OPENDDS_INSTALL_PREFIX=/home/runner/work/OpenDDS/OpenDDS/install_prefix/
-        source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
-        source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
-        source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
+        source $OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
+        source $OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
+        source $OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
         export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
         export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
         export MPC_ROOT=$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
