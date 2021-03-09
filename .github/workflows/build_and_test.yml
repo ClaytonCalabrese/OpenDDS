@@ -643,7 +643,7 @@ jobs:
         EOF
     - name: find autobuild
       shell: bash
-      run |
+      run: |
         find . -iname "*autobuild.pl*"
         $GITHUB_WORKSPACE/build/target/autobuild/autobuild.pl "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/config.xml"
     - name: create ACE_TAO tar.xz artifact
