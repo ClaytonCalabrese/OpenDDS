@@ -425,9 +425,6 @@ jobs:
         export MPC_ROOT=$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
         export PERL5LIB=$(realpath bin):$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
         EOF
-    - name: make install OpenDDS
-      shell: bash
-      run: |
         cd OpenDDS
         source install_setenv.sh
         cd tests/DCPS/Messenger
