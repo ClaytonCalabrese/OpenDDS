@@ -4499,6 +4499,7 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=$OPENDDS_INSTALL_PREFIX ..
         cmake --build .
+        msbuild -p:Configuration=Debug,Platform=x64 -m OpenDDS_Messenger1_cmake.sln
     - name: run CMake test
       shell: cmd
       run: |
