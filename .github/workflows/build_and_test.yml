@@ -641,7 +641,7 @@ jobs:
         <command name="process_logs" options="prettify"/>
         </autobuild>
         EOF
-        $GITHUB_WORKSPACE/autobuild/autobuild.pl "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/config.xml"
+        $GITHUB_WORKSPACE/build/target/autobuild/autobuild.pl "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/config.xml"
     - name: create ACE_TAO tar.xz artifact
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
