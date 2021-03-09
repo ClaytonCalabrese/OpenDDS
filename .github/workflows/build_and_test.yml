@@ -4499,17 +4499,15 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=$OPENDDS_INSTALL_PREFIX ..
         cmake --build .
-        msbuild -p:Configuration=Debug,Platform=x64 -m OpenDDS_Messenger1_cmake.sln
+        cd Debug
+        dir
     - name: run CMake test
       shell: cmd
       run: |
         cd OpenDDS
         call setenv.cmd
-        cd tests/cmake_integration/Messenger/Messenger_1
-        dir
-        cd build
-        dir
-        perl run_test.pl rtps
+        cd tests/cmake_integration/Messenger/Messenger_1/build
+        perl ../../../../DCPS/Messenger/run_test.pl -ExeSubDir Debug rtps
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
