@@ -4689,7 +4689,7 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         cd tests/cmake_integration
-        perl run_ci_tests.pl --build-config=Static_Debug --arch=x64
+        perl run_ci_tests.pl --build-config=Debug --arch=x64
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
