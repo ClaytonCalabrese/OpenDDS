@@ -2698,7 +2698,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --compiler=g++ --tests --security --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --compiler=g++ --safety-profile=base --tests --no-rapidjson --no-content-subscription --no-object-model-profile --no-persistence-profile --mpc=$GITHUB_WORKSPACE/MPC
     - name: build everything
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
