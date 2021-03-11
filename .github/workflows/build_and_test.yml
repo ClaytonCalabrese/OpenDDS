@@ -417,6 +417,11 @@ jobs:
         cp -r $DESTDIR/$INSTALL_PREFIX .
         cat << EOF > install_setenv.sh
         export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
+        ls \$OPENDDS_INSTALL_PREFIX
+        ls \$OPENDDS_INSTALL_PREFIX/share/
+        ls \$OPENDDS_INSTALL_PREFIX/share/ace/
+        ls \$OPENDDS_INSTALL_PREFIX/share/tao/
+        ls \$OPENDDS_INSTALL_PREFIX/share/dds/
         source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
         source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
         source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
@@ -430,6 +435,7 @@ jobs:
         git clean -dfx .
         $ACE_ROOT/bin/mwc.pl -type gnuace .
         make
+        ls
         perl run_test.pl rtps
     - name: gitclean
       shell: bash
