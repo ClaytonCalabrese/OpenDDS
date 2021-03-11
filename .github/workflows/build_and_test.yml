@@ -855,7 +855,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --tests --safety-profile=base --no-rapidjson --no-built-in-topics --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --tests --safety-profile=base --no-rapidjson --no-built-in-topics --mpc=$GITHUB_WORKSPACE/MPC
     - name: build everything
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
@@ -2698,7 +2698,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --compiler=g++ --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --compiler=g++ --tests --security --mpc=$GITHUB_WORKSPACE/MPC
     - name: build everything
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
