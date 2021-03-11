@@ -417,13 +417,6 @@ jobs:
         cp -r $DESTDIR/$INSTALL_PREFIX .
         cat << EOF > install_setenv.sh
         export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
-        ls \$OPENDDS_INSTALL_PREFIX
-        ls \$OPENDDS_INSTALL_PREFIX/share/
-        ls \$OPENDDS_INSTALL_PREFIX/share/ace/
-        ls \$OPENDDS_INSTALL_PREFIX/share/tao/
-        ls \$OPENDDS_INSTALL_PREFIX/share/dds/
-        source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
-        source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
         source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
         export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
         export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
