@@ -417,12 +417,15 @@ jobs:
         cp -r $DESTDIR/$INSTALL_PREFIX .
         cat << EOF > install_setenv.sh
         export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
-        source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
-        export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
-        export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
+        source $OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
+        source $OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
+        source $OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
+        export PATH="$OPENDDS_INSTALL_PREFIX/bin:$PATH"
+        export LD_LIBRARY_PATH="$OPENDDS_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH"
         export MPC_ROOT=$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
         export PERL5LIB=$(realpath bin):$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
         EOF
+        cat install_setenv.sh
         source install_setenv.sh
         cd tests/DCPS/Messenger
         git clean -dfx .
