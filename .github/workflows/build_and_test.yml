@@ -304,18 +304,6 @@ jobs:
       with:
         path: OpenDDS
         submodules: true
-    - name: checkout ACE_TAO
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/ACE_TAO
-        ref: ace6tao2
-        path: OpenDDS/ACE_TAO
-    - name: get ACE_TAO commit
-      shell: bash
-      run: |
-        cd OpenDDS/ACE_TAO
-        export ACE_COMMIT=$(git rev-parse HEAD)
-        echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
     - name: Cache Artifact
       id: cache-artifact
       uses: actions/cache@v2.1.4
@@ -332,7 +320,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --tests --optimize --no-debug --features=versioned_namspace=1 --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
@@ -342,59 +330,6 @@ jobs:
         make -j4
         cd ../TAO
         make -j4
-    - name: create ACE_TAO tar.xz artifact
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      shell: bash
-      run: |
-        cd OpenDDS/ACE_TAO
-        perl -ni.bak -e "print unless /opendds/" ACE/bin/MakeProjectCreator/config/default.features # remove opendds features from here, let individual build configure scripts handle those
-        find . -iname "*\.o" | xargs rm
-        tar cvf ../../${{ github.job }}.tar ACE/ace/config.h
-        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../../${{ github.job }}.tar
-        xz -3 ../../${{ github.job }}.tar
-    - name: upload ACE_TAO artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ github.job }}_artifact
-        path: ${{ github.job }}.tar.xz
-
-  build_u18_o1d0v1_xer0_j12:
-
-    runs-on: ubuntu-18.04
-
-    needs: ACE_TAO_u18_o1d0v1_xer0_j12
-
-    steps:
-    - name: checkout MPC
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/MPC
-        path: MPC
-    - name: checkout ACE_TAO
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/ACE_TAO
-        ref: ace6tao2
-        path: ACE_TAO
-    - name: download ACE_TAO artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: ACE_TAO_u18_o1d0v1_xer0_j12_artifact
-        path: ACE_TAO
-    - name: extract ACE_TAO artifact
-      shell: bash
-      run: |
-        cd ACE_TAO
-        tar xvfJ ACE_TAO_u18_o1d0v1_xer0_j12.tar.xz
-    - name: checkout OpenDDS
-      uses: actions/checkout@v2.3.4
-      with:
-        path: OpenDDS
-        submodules: true
-    - name: configure OpenDDS
-      run: |
-        cd OpenDDS
-        ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: make OpenDDS
       run: |
         cd OpenDDS
@@ -413,17 +348,22 @@ jobs:
         set -e
         export DESTDIR=$(realpath install_temp)
         export INSTALL_PREFIX=$(realpath install_prefix)
+        cd $GITHUB_WORKSPACE/ACE_TAO/ACE
+        make install
+        cd ../TAO
+        make install
+        cd $GITHUB_WORKSPACE/OpenDDS
         make install
         cp -r $DESTDIR/$INSTALL_PREFIX .
         cat << EOF > install_setenv.sh
-        export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
-        source $OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
-        source $OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
-        source $OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
-        export PATH="$OPENDDS_INSTALL_PREFIX/bin:$PATH"
-        export LD_LIBRARY_PATH="$OPENDDS_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH"
-        export MPC_ROOT=$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
-        export PERL5LIB=$(realpath bin):$(realpath $GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
+        export OPENDDS_INSTALL_PREFIX=\$INSTALL_PREFIX
+        source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
+        source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
+        source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
+        export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
+        export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
+        export MPC_ROOT=$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
+        export PERL5LIB=$(realpath bin):$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
         EOF
         cat install_setenv.sh
         source install_setenv.sh
@@ -454,6 +394,108 @@ jobs:
       with:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
+
+  # build_u18_o1d0v1_xer0_j12:
+
+  #   runs-on: ubuntu-18.04
+
+  #   needs: ACE_TAO_u18_o1d0v1_xer0_j12
+
+  #   steps:
+  #   - name: checkout MPC
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       repository: DOCGroup/MPC
+  #       path: MPC
+  #   - name: checkout ACE_TAO
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       repository: DOCGroup/ACE_TAO
+  #       ref: ace6tao2
+  #       path: ACE_TAO
+  #   - name: download ACE_TAO artifact
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: ACE_TAO_u18_o1d0v1_xer0_j12_artifact
+  #       path: ACE_TAO
+  #   - name: extract ACE_TAO artifact
+  #     shell: bash
+  #     run: |
+  #       cd ACE_TAO
+  #       tar xvfJ ACE_TAO_u18_o1d0v1_xer0_j12.tar.xz
+  #   - name: checkout OpenDDS
+  #     uses: actions/checkout@v2.3.4
+  #     with:
+  #       path: OpenDDS
+  #       submodules: true
+  #   - name: configure OpenDDS
+  #     run: |
+  #       cd OpenDDS
+  #       ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+  #   - name: make OpenDDS
+  #     run: |
+  #       cd OpenDDS
+  #       make -sj6
+  #   - name: check build configuration
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS
+  #       . setenv.sh
+  #       tools/scripts/show_build_config.pl
+  #   - uses: ammaraskar/gcc-problem-matcher@0.1
+  #   - name: make install OpenDDS
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS
+  #       set -e
+  #       export DESTDIR=$(realpath install_temp)
+  #       export INSTALL_PREFIX=$(realpath install_prefix)
+  #       cd $GITHUB_WORKSPACE/ACE_TAO/ACE
+  #       make install
+  #       cd ../TAO
+  #       make install
+  #       cd $GITHUB_WORKSPACE/OpenDDS
+  #       make install
+  #       cp -r $DESTDIR/$INSTALL_PREFIX .
+  #       cat << EOF > install_setenv.sh
+  #       export OPENDDS_INSTALL_PREFIX=\$INSTALL_PREFIX
+  #       source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
+  #       source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
+  #       source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
+  #       export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
+  #       export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
+  #       export MPC_ROOT=$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
+  #       export PERL5LIB=$(realpath bin):$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
+  #       EOF
+  #       cat install_setenv.sh
+  #       source install_setenv.sh
+  #       cd tests/DCPS/Messenger
+  #       git clean -dfx .
+  #       $ACE_ROOT/bin/mwc.pl -type gnuace .
+  #       make
+  #       ls
+  #       perl run_test.pl rtps
+  #   - name: gitclean
+  #     shell: bash
+  #     run: |
+  #       touch output.txt
+  #       cd OpenDDS
+  #       git clean -nd -e ext | tee ../output.txt
+  #       if [ -s ../output.txt ]; then exit 1; fi
+  #   - name: create OpenDDS tar.xz artifact
+  #     shell: bash
+  #     run: |
+  #       cd OpenDDS
+  #       rm -rf ACE_TAO
+  #       find . -iname "*\.o" | xargs rm
+  #       tar cvf ../${{ github.job }}.tar setenv.sh
+  #       git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../${{ github.job }}.tar
+  #       xz -3 ../${{ github.job }}.tar
+  #   - name: upload OpenDDS artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: ${{ github.job }}_artifact
+  #       path: ${{ github.job }}.tar.xz
 
 #   test_u18_o1d0v1_xer0_j12:
 
