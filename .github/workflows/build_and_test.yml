@@ -365,7 +365,6 @@ jobs:
         export MPC_ROOT=$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
         export PERL5LIB=$(realpath bin):$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
         EOF
-        cat install_setenv.sh
         source install_setenv.sh
         cd tests/DCPS/Messenger
         git clean -dfx .
