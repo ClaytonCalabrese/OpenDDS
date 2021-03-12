@@ -333,7 +333,7 @@ jobs:
     - name: make OpenDDS
       run: |
         cd OpenDDS
-        make -sj6
+        make -j6
     - name: check build configuration
       shell: bash
       run: |
@@ -434,7 +434,7 @@ jobs:
   #   - name: make OpenDDS
   #     run: |
   #       cd OpenDDS
-  #       make -sj6
+  #       make -j6
   #   - name: check build configuration
   #     shell: bash
   #     run: |
