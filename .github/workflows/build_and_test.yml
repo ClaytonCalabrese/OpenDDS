@@ -324,6 +324,7 @@ jobs:
     - name: make OpenDDS
       run: |
         cd OpenDDS
+        . setenv.sh
         make -j6
     - name: check build configuration
       shell: bash
