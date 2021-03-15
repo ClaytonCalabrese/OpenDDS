@@ -321,15 +321,6 @@ jobs:
       run: |
         cd OpenDDS
         ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
-    - name: build ACE and TAO
-      if: steps.cache-artifact.outputs.cache-hit != 'true'
-      run: |
-        cd OpenDDS
-        . setenv.sh
-        cd ACE_TAO/ACE
-        make -j4
-        cd ../TAO
-        make -j4
     - name: make OpenDDS
       run: |
         cd OpenDDS
