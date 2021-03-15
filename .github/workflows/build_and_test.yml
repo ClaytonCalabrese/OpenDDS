@@ -304,12 +304,11 @@ jobs:
       with:
         path: OpenDDS
         submodules: true
-    - name: Cache Artifact
-      id: cache-artifact
-      uses: actions/cache@v2.1.4
+    - name: checkout autobuild
+      uses: actions/checkout@v2.3.4
       with:
-        path: ${{ github.job }}.tar.xz
-        key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
+        repository: DOCGroup/autobuild
+        path: autobuild
     - name: checkout MPC
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       uses: actions/checkout@v2.3.4
@@ -321,11 +320,11 @@ jobs:
       run: |
         cd OpenDDS
         ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
-    - name: make OpenDDS
+    - name: build everything
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        . setenv.sh
-        make -j6
+        make -j4
     - name: check build configuration
       shell: bash
       run: |
