@@ -339,9 +339,9 @@ jobs:
         set -e
         export DESTDIR=$(realpath install_temp)
         export INSTALL_PREFIX=$(realpath install_prefix)
-        cd $GITHUB_WORKSPACE/ACE_TAO/ACE
+        cd $GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/ace
         make install
-        cd ../TAO
+        cd $GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/TAO
         make install
         cd $GITHUB_WORKSPACE/OpenDDS
         make install
