@@ -339,6 +339,7 @@ jobs:
         set -e
         export DESTDIR=$(realpath install_temp)
         export INSTALL_PREFIX=$(realpath install_prefix)
+        . setenv.sh
         cd $GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/ace
         make install
         cd $GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/TAO
@@ -356,7 +357,11 @@ jobs:
         export MPC_ROOT=$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/MPC)
         export PERL5LIB=$(realpath bin):$(realpath \$GITHUB_WORKSPACE/ACE_TAO/ACE/bin)
         EOF
-        source install_setenv.sh
+    - name: test make install
+      shell: bash
+      run: |
+        cd OpenDDS
+        . install_setenv.sh
         cd tests/DCPS/Messenger
         git clean -dfx .
         $ACE_ROOT/bin/mwc.pl -type gnuace .
