@@ -361,6 +361,7 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS
+        export INSTALL_PREFIX=$(realpath install_prefix)
         . install_setenv.sh
         cd tests/DCPS/Messenger
         git clean -dfx .
