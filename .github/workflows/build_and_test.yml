@@ -5408,6 +5408,13 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         msbuild -p:Configuration=Release,Platform=x64 -m DDS.sln
+    - name: run Dev Guide tests
+      shell: cmd
+      run: |
+        cd OpenDDS
+        call setenv.cmd
+        cd DevGuideExamples\DCPS\Messenger
+        perl run_test.pl -ExeSubDir Release
     - name: gitclean
       shell: bash
       run: |
