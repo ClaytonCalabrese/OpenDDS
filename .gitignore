@@ -24,6 +24,8 @@ compile_commands.json
 *.ilk
 *.exp
 *.[ip]db
+*.ipdb
+*.recipe
 *.opensdf
 *.sdf
 *.sln
