@@ -355,8 +355,8 @@ jobs:
         source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
         export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
         export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
-        export MPC_ROOT=$(realpath \$GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/MPC)
-        export PERL5LIB=$(realpath bin):$(realpath \$GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/bin)
+        export MPC_ROOT=$GITHUB_WORKSPACE/MPC
+        export PERL5LIB=$(realpath bin):$(realpath $GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/bin)
         EOF
     - name: test make install
       shell: bash
