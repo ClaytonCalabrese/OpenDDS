@@ -329,6 +329,7 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS
+        cat setenv.sh
         . setenv.sh
         tools/scripts/show_build_config.pl
     - uses: ammaraskar/gcc-problem-matcher@0.1
