@@ -4345,6 +4345,37 @@ jobs:
         . setenv.sh
         cd DevGuideExamples/DCPS/Messenger
         perl run_test.pl
+    - name: check disk space
+      shell: bash
+      run: |
+        df -h
+    - name: build messenger tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests/DCPS/Messenger
+        mwc.pl -type GNUACE
+        make
+    - name: build compiler tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests/DCPS/Compiler
+        mwc.pl -type GNUACE
+        make
+    - name: check disk space after building tests
+      shell: bash
+      run: |
+        df -h
+    - name: run Static CI tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests
+        perl auto_run_tests.pl -l static_ci_tests.lst
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
@@ -4873,6 +4904,37 @@ jobs:
         call setenv.cmd
         cd tests/cmake_integration/
         perl run_ci_tests.pl --no-shared --build-config=Debug
+    - name: check disk space
+      shell: bash
+      run: |
+        df -h
+    - name: build messenger tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests/DCPS/Messenger
+        mwc.pl -type GNUACE
+        make
+    - name: build compiler tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests/DCPS/Compiler
+        mwc.pl -type GNUACE
+        make
+    - name: check disk space after building tests
+      shell: bash
+      run: |
+        df -h
+    - name: run Static CI tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests
+        perl auto_run_tests.pl -l static_ci_tests.lst
     - name: create OpenDDS tar.xz artifact
       shell: bash
       run: |
