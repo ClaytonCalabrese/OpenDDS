@@ -4911,6 +4911,7 @@ jobs:
         call setenv.cmd
         cd tests\DCPS\Messenger
         mwc.pl -type VS2019
+        dir
         msbuild -p:Configuration=Debug,Platform=x64 -m Messenger.sln
     - name: build compiler tests
       shell: cmd
@@ -4919,6 +4920,7 @@ jobs:
         call setenv.cmd
         cd tests\DCPS\Compiler
         mwc.pl -type VS2019
+        dir
         msbuild -p:Configuration=Debug,Platform=x64 -m Compiler.sln
     - name: run Static CI tests
       shell: cmd
