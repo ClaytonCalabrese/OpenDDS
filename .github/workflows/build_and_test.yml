@@ -4904,22 +4904,29 @@ jobs:
         call setenv.cmd
         cd tests/cmake_integration/
         perl run_ci_tests.pl --no-shared --build-config=Debug
-    - name: build messenger tests
-      shell: cmd
-      run: |
-        cd OpenDDS
-        call setenv.cmd
-        cd tests\DCPS\Messenger
-        mwc.pl -type VS2019
-        dir
-        msbuild -p:Configuration=Debug,Platform=x64 -m Messenger.sln
+    # - name: build messenger tests
+    #   shell: cmd
+    #   run: |
+    #     cd OpenDDS
+    #     call setenv.cmd
+    #     cd tests\DCPS\Messenger
+    #     mwc.pl -type vs2019
+    #     dir
+    #     msbuild -p:Configuration=Debug,Platform=x64 -m Messenger.sln
     - name: build compiler tests
       shell: cmd
       run: |
         cd OpenDDS
         call setenv.cmd
         cd tests\DCPS\Compiler
-        mwc.pl -type VS2019
+        mwc.pl -type vs2019
+        dir
+    - name: make compiler tests
+      shell: cmd
+      run: |
+        cd OpenDDS
+        call setenv.cmd
+        cd tests\DCPS\Compiler
         dir
         msbuild -p:Configuration=Debug,Platform=x64 -m Compiler.sln
     - name: run Static CI tests
