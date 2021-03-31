@@ -86,6 +86,24 @@ jobs:
       with:
         path: OpenDDS
         submodules: true
+    - name: checkout ACE_TAO
+      uses: actions/checkout@v2.3.4
+      with:
+        repository: DOCGroup/ACE_TAO
+        ref: ace6tao2
+        path: OpenDDS/ACE_TAO
+    - name: get ACE_TAO commit
+      shell: bash
+      run: |
+        cd OpenDDS/ACE_TAO
+        export ACE_COMMIT=$(git rev-parse HEAD)
+        echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
+    - name: Cache Artifact
+      id: cache-artifact
+      uses: actions/cache@v2.1.4
+      with:
+        path: ${{ github.job }}.tar.xz
+        key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
     - name: checkout autobuild
       uses: actions/checkout@v2.3.4
       with:
@@ -97,50 +115,31 @@ jobs:
       with:
         repository: DOCGroup/MPC
         path: MPC
-    - name: checkout ACE_TAO
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/ACE_TAO
-        ref: ace6tao2
-        path: ACE_TAO
-    - name: download ACE_TAO artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: ACE_TAO_u18_o1d0v1_xer0_j12_artifact
-        path: ACE_TAO
-    - name: extract ACE_TAO artifact
-      shell: bash
-      run: |
-        cd ACE_TAO
-        tar xvfJ ACE_TAO_u18_o1d0v1_xer0_j12.tar.xz
     - name: configure OpenDDS
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
         ./configure --doc-group --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
-    - name: build everything
+    - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        make -j4
-    - name: check build configuration
-      shell: bash
-      run: |
-        cd OpenDDS
-        cat setenv.sh
         . setenv.sh
-        tools/scripts/show_build_config.pl
-    - uses: ammaraskar/gcc-problem-matcher@0.1
-    - name: create OpenDDS tar.xz artifact
+        cd ACE_TAO/ACE
+        make -j4
+        cd ../TAO
+        make -j4
+    - name: create ACE_TAO tar.xz artifact
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        cd OpenDDS
-        rm -rf ACE_TAO
+        cd OpenDDS/ACE_TAO
+        perl -ni.bak -e "print unless /opendds/" ACE/bin/MakeProjectCreator/config/default.features # remove opendds features from here, let individual build configure scripts handle those
         find . -iname "*\.o" | xargs rm
-        tar cvf ../${{ github.job }}.tar setenv.sh
-        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../${{ github.job }}.tar
-        xz -3 ../${{ github.job }}.tar
-    - name: upload OpenDDS artifact
+        tar cvf ../../${{ github.job }}.tar ACE/ace/config.h
+        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../../${{ github.job }}.tar
+        xz -3 ../../${{ github.job }}.tar
+    - name: upload ACE_TAO artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ github.job }}_artifact
