@@ -119,7 +119,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
