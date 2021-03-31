@@ -5728,11 +5728,12 @@ jobs:
       run: |
         tar xvJf wireshark_w19-release.tar.xz
         rm -f wireshark_w19-release.tar.xz
-    - name: install xerces-c
+    - name: install openssl-windows & xerces-c
+      if: steps.cache-artifact.outputs.cache-hit != 'true'
       uses: lukka/run-vcpkg@v6
       with:
         vcpkgGitCommitId: ec6fe06e8da05a8157dc8581fa96b36b571c1bd5
-        vcpkgArguments: --recurse xerces-c
+        vcpkgArguments: --recurse openssl-windows xerces-c
         vcpkgTriplet: x64-windows
     - name: checkout MPC
       uses: actions/checkout@v2.3.4
