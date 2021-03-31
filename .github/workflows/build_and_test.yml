@@ -4919,7 +4919,7 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         cd tests\DCPS\Compiler
-        mwc.pl -type vs2019
+        perl $ACE_ROOT/bin/mwc.pl -type vs2019
         dir
     - name: make compiler tests
       shell: cmd
