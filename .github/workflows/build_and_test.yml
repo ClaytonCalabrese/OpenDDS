@@ -615,14 +615,10 @@ jobs:
     needs: wait_cancel_previous
 
     steps:
-    - name: install gcc
+    - name: install gcc and g++
       run: |
-        sudo apt-get install -y gcc-10
-        sudo update-alternatives \
-          --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
-          --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-10 \
-          --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-10 \
-          --slave /usr/bin/gcov gcov /usr/bin/gcov-10
+        sudo apt-get install gcc-10 g++-10
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -656,7 +652,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --compiler=gcc --no-inline --features=uses_wchar=1 --tests --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --compiler=g++ --no-inline --features=uses_wchar=1 --tests --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
@@ -689,14 +685,10 @@ jobs:
     needs: ACE_TAO_u18_gcc10_i0w1_xer0_2
 
     steps:
-    - name: install gcc
+    - name: install gcc and g++
       run: |
-        sudo apt-get install -y gcc-10
-        sudo update-alternatives \
-          --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
-          --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-10 \
-          --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-10 \
-          --slave /usr/bin/gcov gcov /usr/bin/gcov-10
+        sudo apt-get install gcc-10 g++-10
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
     - name: checkout MPC
       uses: actions/checkout@v2.3.4
       with:
@@ -726,7 +718,7 @@ jobs:
     - name: configure OpenDDS
       run: |
         cd OpenDDS
-        ./configure --compiler=gcc --no-inline --features=uses_wchar=1 --tests --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --compiler=g++ --no-inline --features=uses_wchar=1 --tests --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
     - name: check build configuration
       shell: bash
       run: |
