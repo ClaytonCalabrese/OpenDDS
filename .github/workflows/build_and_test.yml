@@ -76,7 +76,7 @@ jobs:
         ref: ${{ env.TRIGGERING_COMMIT }}
         trigger_workflow: false
 
-  ACE_TAO_u18_o1d0v1_xer0_j12:
+  ACE_TAO_u18_o1d0v1_xer0_j12_2:
 
     runs-on: ubuntu-18.04
 
@@ -119,7 +119,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --doc-group --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --rapidjson --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
@@ -145,11 +145,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  build_u18_o1d0v1_xer0_j12:
+  build_u18_o1d0v1_xer0_j12_2:
 
     runs-on: ubuntu-18.04
 
-    needs: ACE_TAO_u18_o1d0v1_xer0_j12
+    needs: ACE_TAO_u18_o1d0v1_xer0_j12_2
 
     steps:
     - name: checkout MPC
@@ -166,13 +166,13 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: ACE_TAO_u18_o1d0v1_xer0_j12_artifact
+        name: ACE_TAO_u18_o1d0v1_xer0_j12_2_artifact
         path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd ACE_TAO
-        tar xvfJ ACE_TAO_u18_o1d0v1_xer0_j12.tar.xz
+        tar xvfJ ACE_TAO_u18_o1d0v1_xer0_j12_2.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
       with:
@@ -216,7 +216,7 @@ jobs:
         export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
         export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
         export MPC_ROOT=$GITHUB_WORKSPACE/MPC
-        export PERL5LIB=$(realpath bin):$(realpath $GITHUB_WORKSPACE/OpenDDS/ACE_wrappers/bin)
+        export PERL5LIB=$(realpath bin):$(realpath $ACE_ROOT/bin)
         EOF
     - name: test make install
       shell: bash
