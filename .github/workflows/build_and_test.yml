@@ -230,6 +230,11 @@ jobs:
         make
         ls
         perl run_test.pl rtps
+    - name: remove install clutter
+      shell: bash
+      run: |
+        cd OpenDDS
+        rm -rf install_temp install_prefix install_setenv.sh
     - name: gitclean
       shell: bash
       run: |
