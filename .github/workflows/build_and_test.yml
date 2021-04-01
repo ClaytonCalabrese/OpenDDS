@@ -5272,7 +5272,7 @@ jobs:
   #       cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
   #       if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  ACE_TAO_w19-release_o1p1_sec_2:
+  ACE_TAO_w19-release_o1p1_sec_3:
 
     runs-on: windows-2019
 
@@ -5316,6 +5316,17 @@ jobs:
     - name: set up msvc env
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       uses: ilammy/msvc-dev-cmd@v1.7.0
+    - name: look in xerces
+      shell: cmd
+      run: |
+        cd vcpkg\installed\x64-windows
+        dir
+        cd debug
+        dir
+        cd lib
+        dir
+        cd ..\..\lib
+        dir
     - name: configure OpenDDS
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       shell: cmd
@@ -5348,11 +5359,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  build_w19-release_o1p1_sec_2:
+  build_w19-release_o1p1_sec_3:
 
     runs-on: windows-2019
 
-    needs: ACE_TAO_w19-release_o1p1_sec_2
+    needs: ACE_TAO_w19-release_o1p1_sec_3
 
     steps:
     - name: install openssl-windows & xerces-c
@@ -5380,14 +5391,14 @@ jobs:
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
-        name: ACE_TAO_w19-release_o1p1_sec_2_artifact
+        name: ACE_TAO_w19-release_o1p1_sec_3_artifact
         path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
         cd OpenDDS/ACE_TAO
-        tar xvfJ ACE_TAO_w19-release_o1p1_sec_2.tar.xz
-        rm -f ACE_TAO_w19-release_o1p1_sec_2.tar.xz
+        tar xvfJ ACE_TAO_w19-release_o1p1_sec_3.tar.xz
+        rm -f ACE_TAO_w19-release_o1p1_sec_3.tar.xz
     - uses: ammaraskar/msvc-problem-matcher@0.1
     - name: set up msvc env
       uses: ilammy/msvc-dev-cmd@v1.7.0
@@ -5437,11 +5448,11 @@ jobs:
         name: ${{ github.job }}_artifact
         path: ${{ github.job }}.tar.xz
 
-  # # test_w19-release_o1p1_sec_2:
+  # # test_w19-release_o1p1_sec_3:
 
   # #   runs-on: windows-2019
 
-  # #   needs: build_w19-release_o1p1_sec_2
+  # #   needs: build_w19-release_o1p1_sec_3
 
   # #   steps:
   # #   - name: install openssl-windows & xerces-c
@@ -5474,25 +5485,25 @@ jobs:
   # #   - name: download ACE_TAO artifact
   # #     uses: actions/download-artifact@v2
   # #     with:
-  # #       name: ACE_TAO_w19-release_o1p1_sec_2_artifact
+  # #       name: ACE_TAO_w19-release_o1p1_sec_3_artifact
   # #       path: OpenDDS/ACE_TAO
   # #   - name: extract ACE_TAO artifact
   # #     shell: bash
   # #     run: |
   # #       cd OpenDDS/ACE_TAO
-  # #       tar xvfJ ACE_TAO_w19-release_o1p1_sec_2.tar.xz
-  # #       rm -f ACE_TAO_w19-release_o1p1_sec_2.tar.xz
+  # #       tar xvfJ ACE_TAO_w19-release_o1p1_sec_3.tar.xz
+  # #       rm -f ACE_TAO_w19-release_o1p1_sec_3.tar.xz
   # #   - name: download OpenDDS artifact
   # #     uses: actions/download-artifact@v2
   # #     with:
-  # #       name: build_w19-release_o1p1_sec_2_artifact
+  # #       name: build_w19-release_o1p1_sec_3_artifact
   # #       path: OpenDDS
   # #   - name: extract OpenDDS artifact
   # #     shell: bash
   # #     run: |
   # #       cd OpenDDS
-  # #       tar xvfJ build_w19-release_o1p1_sec_2.tar.xz
-  # #       rm -f build_w19-release_o1p1_sec_2.tar.xz
+  # #       tar xvfJ build_w19-release_o1p1_sec_3.tar.xz
+  # #       rm -f build_w19-release_o1p1_sec_3.tar.xz
   # #   - name: check build configuration
   # #     shell: cmd
   # #     run: |
@@ -5680,9 +5691,7 @@ jobs:
         dir
         cd lib
         dir
-        cd ..\..\release
-        dir
-        cd lib
+        cd ..\..\lib
         dir
     - name: checkout MPC
       if: steps.cache-artifact.outputs.cache-hit != 'true'
