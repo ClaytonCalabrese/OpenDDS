@@ -228,7 +228,6 @@ jobs:
         git clean -dfx .
         $ACE_ROOT/bin/mwc.pl -type gnuace .
         make
-        ls
         perl run_test.pl rtps
     - name: remove install clutter
       shell: bash
