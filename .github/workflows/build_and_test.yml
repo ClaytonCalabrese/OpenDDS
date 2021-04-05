@@ -294,15 +294,15 @@ jobs:
       run: |
         cd OpenDDS
         . setenv.sh
-        cd tests/cmake_integration/
-        perl run_ci_tests.pl --no-shared --build-config=Debug
+        cd tests/cmake_integration
+        perl run_ci_tests.pl
     - name: build messenger tests
       shell: bash
       run: |
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/Messenger
-        mwc.pl -type vs2019 -static
+        mwc.pl -type gnuace -static
     - name: make messenger tests
       shell: bash
       run: |
@@ -415,7 +415,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/Compiler
-        mwc.pl -type vs2019 -static
+        mwc.pl -type gnuace -static
     - name: make compiler tests
       shell: bash
       run: |
@@ -528,7 +528,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/UnitTests
-        mwc.pl -type vs2019 -static
+        mwc.pl -type gnuace -static
     - name: make messenger tests
       shell: bash
       run: |
@@ -742,7 +742,7 @@ jobs:
   #       cd OpenDDS
   #       call setenv.cmd
   #       cd tests/cmake_integration/
-  #       perl run_ci_tests.pl --no-shared --build-config=Debug
+  #       perl run_ci_tests.pl
   #   - name: build messenger tests
   #     shell: cmd
   #     run: |
