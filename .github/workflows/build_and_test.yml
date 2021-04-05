@@ -211,10 +211,6 @@ jobs:
         cd OpenDDS
         . setenv.sh
         make -j4
-    - name: Check Space on Disk
-      shell: bash
-      run: |
-        df –h
     - name: run Static CI tests
       shell: bash
       run: |

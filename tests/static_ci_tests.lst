@@ -37,3 +37,5 @@ tests/DCPS/Compiler/xcdr/run_test.pl !STATIC_MESSENGER !STATIC_UNIT
 tests/DCPS/Compiler/XtypesExtensibility/run_test.pl: !DCPS_MIN !STATIC_MESSENGER !STATIC_UNIT
 
 tests/DCPS/UnitTests/run_test.pl: !DCPS_MIN !GH_ACTIONS !STATIC_MESSENGER !STATIC_COMPILER
+tests/unit-tests/dds/DCPS/run_test_unit.pl: !DCPS_MIN !GH_ACTIONS !STATIC_MESSENGER !STATIC_COMPILER
+tests/unit-tests/dds/DCPS/run_test_safety.pl safetyprofilepool: !DCPS_MIN !WCHAR !NO_BUILT_IN_TOPICS OPENDDS_SAFETY_PROFILE !STATIC_MESSENGER !STATIC_COMPILER
