@@ -80,6 +80,7 @@ jobs:
 
     runs-on: ubuntu-18.04
 
+    needs: wait_cancel_previous
     steps:
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
@@ -103,12 +104,7 @@ jobs:
       uses: actions/cache@v2.1.4
       with:
         path: ${{ github.job }}.tar.xz
-        key: ${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
-    - name: checkout autobuild
-      uses: actions/checkout@v2.3.4
-      with:
-        repository: DOCGroup/autobuild
-        path: autobuild
+        key: c01_${{ github.job }}_ace6tao2_${{ env.ACE_COMMIT }}
     - name: checkout MPC
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       uses: actions/checkout@v2.3.4
@@ -182,76 +178,75 @@ jobs:
       run: |
         cd OpenDDS
         ./configure --optimize --no-debug --features=versioned_namespace=1 --tests --java=/usr/lib/jvm/adoptopenjdk-12-hotspot-amd64 --rapidjson --ace=$GITHUB_WORKSPACE/ACE_TAO/ACE --mpc=$GITHUB_WORKSPACE/MPC
-    - name: make OpenDDS
+    - name: cat setenv
       run: |
         cd OpenDDS
-        make -j6
-    - name: check build configuration
-      shell: bash
-      run: |
-        cd OpenDDS
-        . setenv.sh
-        tools/scripts/show_build_config.pl
-    - uses: ammaraskar/gcc-problem-matcher@0.1
-    - name: make install OpenDDS
-      shell: bash
-      run: |
-        cd OpenDDS
-        set -e
-        export DESTDIR=$(realpath install_temp)
-        export INSTALL_PREFIX=$(realpath install_prefix)
-        . setenv.sh
-        cd $ACE_ROOT
-        make install
-        cd $TAO_ROOT
-        make install
-        cd $GITHUB_WORKSPACE/OpenDDS
-        make install
-        cp -r $DESTDIR/$INSTALL_PREFIX .
-        cat << EOF > install_setenv.sh
-        export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
-        source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
-        source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
-        source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
-        export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
-        export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
-        export MPC_ROOT=$GITHUB_WORKSPACE/MPC
-        export PERL5LIB=$(realpath bin):$(realpath $ACE_ROOT/bin)
-        EOF
-    - name: test make install
-      shell: bash
-      run: |
-        cd OpenDDS
-        cat install_setenv.sh
-        . install_setenv.sh
-        cd tests/DCPS/Messenger
-        git clean -dfx .
-        $ACE_ROOT/bin/mwc.pl -type gnuace .
-        make
-        perl run_test.pl rtps
-    - name: remove install clutter
-      shell: bash
-      run: |
-        cd OpenDDS
-        rm -rf install_temp install_prefix install_setenv.sh
-    - name: gitclean
-      shell: bash
-      run: |
-        touch output.txt
-        cd OpenDDS
-        git clean -nd -e ext | tee ../output.txt
-        if [ -s ../output.txt ]; then exit 1; fi
-    - name: create OpenDDS tar.xz artifact
-      shell: bash
-      run: |
-        cd OpenDDS
-        rm -rf ACE_TAO
-        find . -iname "*\.o" | xargs rm
-        tar cvf ../${{ github.job }}.tar setenv.sh
-        git clean -xdfn | cut -d ' ' -f 3- | xargs tar uvf ../${{ github.job }}.tar
-        xz -3 ../${{ github.job }}.tar
-    - name: upload OpenDDS artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ github.job }}_artifact
-        path: ${{ github.job }}.tar.xz
+        cat setenv.sh
+    # - name: make OpenDDS
+    #   run: |
+    #     cd OpenDDS
+    #     make -j6
+    # - name: check build configuration
+    #   shell: bash
+    #   run: |
+    #     cd OpenDDS
+    #     . setenv.sh
+    #     tools/scripts/show_build_config.pl
+    # - uses: ammaraskar/gcc-problem-matcher@0.1
+    # - name: make install OpenDDS
+    #   shell: bash
+    #   run: |
+    #     cd OpenDDS
+    #     set -e
+    #     export DESTDIR=$(realpath install_temp)
+    #     export INSTALL_PREFIX=$(realpath install_prefix)
+    #     . setenv.sh
+    #     cd $ACE_ROOT
+    #     make install
+    #     cd $TAO_ROOT
+    #     make install
+    #     cd $GITHUB_WORKSPACE/OpenDDS
+    #     make install
+    #     cp -r $DESTDIR/$INSTALL_PREFIX .
+    #     cat << EOF > install_setenv.sh
+    #     export OPENDDS_INSTALL_PREFIX=$INSTALL_PREFIX
+    #     source \$OPENDDS_INSTALL_PREFIX/share/ace/ace-devel.sh
+    #     source \$OPENDDS_INSTALL_PREFIX/share/tao/tao-devel.sh
+    #     source \$OPENDDS_INSTALL_PREFIX/share/dds/dds-devel.sh
+    #     export PATH="\$OPENDDS_INSTALL_PREFIX/bin:\$PATH"
+    #     export LD_LIBRARY_PATH="\$OPENDDS_INSTALL_PREFIX/lib:\$LD_LIBRARY_PATH"
+    #     export MPC_ROOT=$GITHUB_WORKSPACE/MPC
+    #     export PERL5LIB=$(realpath bin):$(realpath $ACE_ROOT/bin)
+    #     EOF
+    # - name: test make install
+    #   shell: bash
+    #   run: |
+    #     cd OpenDDS
+    #     . install_setenv.sh
+    #     cd tests/DCPS/Messenger
+    #     git clean -dfx .
+    #     $ACE_ROOT/bin/mwc.pl -type gnuace .
+    #     make
+    #     perl run_test.pl rtps
+    # - name: test make install java
+    #   shell: bash
+    #   run: |
+    #     cd OpenDDS
+    #     . install_setenv.sh
+    #     cd java/tests/messenger
+    #     git clean -dfx .
+    #     $ACE_ROOT/bin/mwc.pl -type gnuace  -language java .
+    #     make
+    #     perl run_test.pl rtps
+    # - name: remove install clutter
+    #   shell: bash
+    #   run: |
+    #     cd OpenDDS
+    #     rm -rf install_temp install_prefix install_setenv.sh
+    # - name: gitclean
+    #   shell: bash
+    #   run: |
+    #     touch output.txt
+    #     cd OpenDDS
+    #     git clean -nd -e ext | tee ../output.txt
+    #     if [ -s ../output.txt ]; then exit 1; fi
