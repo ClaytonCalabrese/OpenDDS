@@ -22,7 +22,6 @@ tests/DCPS/Messenger/run_test.pl rtps_disc_sec: !DCPS_MIN !NO_MCAST RTPS !DDS_NO
 
 tests/DCPS/Messenger/run_corbaloc_test.pl: !DCPS_MIN !OPENDDS_SAFETY_PROFILE !DDS_NO_OWNERSHIP_PROFILE !STATIC_COMPILER !STATIC_UNIT
 tests/DCPS/Messenger/run_corbaloc_test.pl host_port_only: !DCPS_MIN !OPENDDS_SAFETY_PROFILE !DDS_NO_OWNERSHIP_PROFILE !STATIC_COMPILER !STATIC_UNIT
-tests/DCPS/Messenger/run_ns_test.pl: !DCPS_MIN !DDS_NO_ORBSVCS !OPENDDS_SAFETY_PROFILE !DDS_NO_OWNERSHIP_PROFILE !STATIC_COMPILER !STATIC_UNIT
 
 tests/DCPS/Compiler/idl_test1_main/run_test.pl: !DCPS_MIN !OPENDDS_SAFETY_PROFILE !STATIC_MESSENGER !STATIC_UNIT
 tests/DCPS/Compiler/idl_test3_main/run_test.pl: !DCPS_MIN !OPENDDS_SAFETY_PROFILE !STATIC_MESSENGER !STATIC_UNIT
@@ -33,7 +32,7 @@ tests/DCPS/Compiler/is_topic_type/run_test.pl: !DCPS_MIN !STATIC_MESSENGER !STAT
 tests/DCPS/Compiler/rapidjson_generator/run_test.pl: !DCPS_MIN RAPIDJSON CXX11 !STATIC_MESSENGER !STATIC_UNIT
 tests/DCPS/Compiler/TryConstruct/run_test.pl: !DCPS_MIN !OPENDDS_SAFETY_PROFILE !STATIC_MESSENGER !STATIC_UNIT
 tests/DCPS/Compiler/TryConstruct/C++11/run_test.pl: !DCPS_MIN CXX11 !OPENDDS_SAFETY_PROFILE !STATIC_MESSENGER !STATIC_UNIT
-tests/DCPS/Compiler/xcdr/run_test.pl !STATIC_MESSENGER !STATIC_UNIT
+tests/DCPS/Compiler/xcdr/run_test.pl: !DCPS_MIN !STATIC_MESSENGER !STATIC_UNIT
 tests/DCPS/Compiler/XtypesExtensibility/run_test.pl: !DCPS_MIN !STATIC_MESSENGER !STATIC_UNIT
 
 tests/DCPS/UnitTests/run_test.pl: !DCPS_MIN !GH_ACTIONS !STATIC_MESSENGER !STATIC_COMPILER
