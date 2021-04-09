@@ -296,7 +296,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/Messenger
-        mwc.pl -type gnuace -static
+        mwc.pl -type gnuace -static -features qt5=1 -features java=1 -features openssl11=1 -features xerces3=1
     - name: make messenger tests
       shell: bash
       run: |
