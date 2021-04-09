@@ -292,13 +292,6 @@ jobs:
         cd OpenDDS
         . setenv.sh
         tools/scripts/show_build_config.pl
-    - name: build and run CMake tests
-      shell: bash
-      run: |
-        cd OpenDDS
-        . setenv.sh
-        cd tests/cmake_integration
-        perl run_ci_tests.pl --no-shared
     - name: build messenger tests
       shell: bash
       run: |
@@ -355,6 +348,13 @@ jobs:
       run: |
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
+    - name: build and run CMake tests
+      shell: bash
+      run: |
+        cd OpenDDS
+        . setenv.sh
+        cd tests/cmake_integration
+        perl run_ci_tests.pl --no-shared
 
   compiler_u18_stat_qt_ws_sec_3:
 
