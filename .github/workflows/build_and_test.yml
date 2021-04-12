@@ -170,6 +170,11 @@ jobs:
       with:
         repository: DOCGroup/MPC
         path: MPC
+    - name: checkout OpenDDS
+      uses: actions/checkout@v2.3.4
+      with:
+        path: OpenDDS
+        submodules: true
     - name: checkout ACE_TAO
       uses: actions/checkout@v2.3.4
       with:
@@ -185,12 +190,8 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS/ACE_TAO
+        pwd
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec_4.tar.xz
-    - name: checkout OpenDDS
-      uses: actions/checkout@v2.3.4
-      with:
-        path: OpenDDS
-        submodules: true
     - name: setup gtest
       run: |
         cd OpenDDS/tests/googletest
