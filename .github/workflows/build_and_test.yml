@@ -95,9 +95,19 @@ jobs:
     - name: get ACE_TAO commit
       shell: bash
       run: |
-        cd OpenDDS/ACE_TAO
+        cd OpenDDS
+        pwd
+        ls
+      #cd OpenDDS/ACE_TAO
+        cd ACE_TAO
+        pwd
+        ls
         export ACE_COMMIT=$(git rev-parse HEAD)
         echo "ACE_COMMIT=$ACE_COMMIT" >> $GITHUB_ENV
+    - name: echo GITHUB
+      shell: bash
+      run: |
+        echo $GITHUB_WORKSPACE
     - name: Cache Artifact
       id: cache-artifact
       uses: actions/cache@v2.1.4
@@ -117,7 +127,7 @@ jobs:
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
         cd OpenDDS
-        ./configure --static --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --static --tests --security --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --tao=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/TAO --mpc=$GITHUB_WORKSPACE/MPC
     - name: build ACE and TAO
       if: steps.cache-artifact.outputs.cache-hit != 'true'
       run: |
@@ -195,7 +205,7 @@ jobs:
     - name: configure OpenDDS
       run: |
         cd OpenDDS
-        ./configure --static --qt --security --rapidjson --gtest=$GITHUB_WORKSPACE/OpenDDS/tests/googletest/build/install --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --tao=%GITHUB_WORKSPACE%/OpenDDS/ACE_TAO/TAO --mpc=$GITHUB_WORKSPACE/MPC
+        ./configure --static --qt --security --rapidjson --gtest=$GITHUB_WORKSPACE/OpenDDS/tests/googletest/build/install --ace=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/ACE --tao=$GITHUB_WORKSPACE/OpenDDS/ACE_TAO/TAO --mpc=$GITHUB_WORKSPACE/MPC
     - name: check build configuration
       shell: bash
       run: |
