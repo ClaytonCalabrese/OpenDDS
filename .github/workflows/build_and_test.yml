@@ -363,7 +363,7 @@ jobs:
       run: |
         cd OpenDDS
         . install_setenv.sh
-        cd build
+        cd tests/cmake_integration/Messenger/Messenger_1/build
         perl run_test.pl
     - name: remove install clutter
       shell: bash
