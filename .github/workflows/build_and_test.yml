@@ -259,7 +259,7 @@ jobs:
 
     runs-on: ubuntu-18.04
 
-    needs: ACE_TAO_u18_o1d0v1_xer0_j12_2
+    needs: build_u18_o1d0v1_xer0_j12_2
 
     steps:
     - name: checkout MPC
