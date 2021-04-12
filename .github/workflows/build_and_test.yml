@@ -262,16 +262,16 @@ jobs:
       with:
         repository: DOCGroup/ACE_TAO
         ref: ace6tao2
-        path: ACE_TAO
+        path: OpenDDS/ACE_TAO
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
         name: ACE_TAO_u18_stat_qt_ws_sec_4_artifact
-        path: ACE_TAO
+        path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
-        cd ACE_TAO
+        cd OpenDDS/ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec_4.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
@@ -392,16 +392,16 @@ jobs:
       with:
         repository: DOCGroup/ACE_TAO
         ref: ace6tao2
-        path: ACE_TAO
+        path: OpenDDS/ACE_TAO
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
         name: ACE_TAO_u18_stat_qt_ws_sec_4_artifact
-        path: ACE_TAO
+        path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
-        cd ACE_TAO
+        cd OpenDDS/ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec_4.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
@@ -515,16 +515,16 @@ jobs:
       with:
         repository: DOCGroup/ACE_TAO
         ref: ace6tao2
-        path: ACE_TAO
+        path: OpenDDS/ACE_TAO
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
         name: ACE_TAO_u18_stat_qt_ws_sec_4_artifact
-        path: ACE_TAO
+        path: OpenDDS/ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
-        cd ACE_TAO
+        cd OpenDDS/ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec_4.tar.xz
     - name: checkout OpenDDS
       uses: actions/checkout@v2.3.4
