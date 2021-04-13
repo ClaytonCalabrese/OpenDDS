@@ -369,6 +369,7 @@ jobs:
       shell: bash
       run: |
         cd OpenDDS
+        rm build_u18_o1d0v1_xer0_j12_2.tar.xz
         rm -rf install_temp install_prefix install_setenv.sh
     - name: gitclean
       shell: bash
