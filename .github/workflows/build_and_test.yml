@@ -257,6 +257,11 @@ jobs:
       with:
         repository: DOCGroup/autobuild
         path: autobuild
+    - name: checkout OpenDDS
+      uses: actions/checkout@v2.3.4
+      with:
+        path: OpenDDS
+        submodules: true
     - name: checkout ACE_TAO
       uses: actions/checkout@v2.3.4
       with:
@@ -273,11 +278,6 @@ jobs:
       run: |
         cd OpenDDS/ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec_4.tar.xz
-    - name: checkout OpenDDS
-      uses: actions/checkout@v2.3.4
-      with:
-        path: OpenDDS
-        submodules: true
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
       with:
@@ -310,7 +310,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/Messenger
-        $ACE_ROOT/bin/mwc.pl -type gnuace -static no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
+        mwc.pl -type gnuace -static no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
     - name: make messenger tests
       shell: bash
       run: |
