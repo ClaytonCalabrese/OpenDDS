@@ -896,6 +896,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_p1_stat_js0.tar.xz
         rm -f build_w19_p1_stat_js0.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -1036,6 +1038,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_p1_stat_js0.tar.xz
         rm -f build_w19_p1_stat_js0.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -1175,6 +1179,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_p1_stat_js0.tar.xz
         rm -f build_w19_p1_stat_js0.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -1477,6 +1483,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_re_p1_cpp03_stat_FM-08.tar.xz
         rm -f build_w19_re_p1_cpp03_stat_FM-08.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -1615,6 +1623,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_re_p1_cpp03_stat_FM-08.tar.xz
         rm -f build_w19_re_p1_cpp03_stat_FM-08.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -1753,6 +1763,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_re_p1_cpp03_stat_FM-08.tar.xz
         rm -f build_w19_re_p1_cpp03_stat_FM-08.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -3029,6 +3041,13 @@ jobs:
         mkdir install
         cmake -DCMAKE_INSTALL_PREFIX=./install ..
         cmake --build . --target install
+    - name: check GTest Path
+      shell: cmd
+      run: |
+        cd D:\a\OpenDDS\OpenDDS\OpenDDS\tests\googletest\build\install\
+        dir
+        cd lib
+        dir
     - name: build unit tests
       shell: cmd
       run: |
