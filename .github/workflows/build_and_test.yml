@@ -3039,9 +3039,8 @@ jobs:
         mkdir build
         cd build
         mkdir install
-        cmake -DCMAKE_INSTALL_PREFIX=./install -DCMAKE_BUILD_TYPE=release ..
-        dir
-        cmake --build . --target install
+        cmake -DCMAKE_INSTALL_PREFIX=./install ..
+        cmake --build . --target install --config Release
     - name: check GTest Path
       shell: cmd
       run: |
