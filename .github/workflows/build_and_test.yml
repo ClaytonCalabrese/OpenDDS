@@ -257,16 +257,16 @@ jobs:
       with:
         repository: DOCGroup/ACE_TAO
         ref: ace6tao2
-        path: OpenDDS/ACE_TAO
+        path: ACE_TAO
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
         name: ACE_TAO_u18_stat_qt_ws_sec_artifact
-        path: OpenDDS/ACE_TAO
+        path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
-        cd OpenDDS/ACE_TAO
+        cd ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec.tar.xz
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
@@ -300,7 +300,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/Messenger
-        $ACE_ROOT/bin/mwc.pl -type gnuace -static -features no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
+        perl $ACE_ROOT/bin/mwc.pl -type gnuace -static -features no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
     - name: make messenger tests
       shell: bash
       run: |
@@ -387,16 +387,16 @@ jobs:
       with:
         repository: DOCGroup/ACE_TAO
         ref: ace6tao2
-        path: OpenDDS/ACE_TAO
+        path: ACE_TAO
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
         name: ACE_TAO_u18_stat_qt_ws_sec_artifact
-        path: OpenDDS/ACE_TAO
+        path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
-        cd OpenDDS/ACE_TAO
+        cd ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec.tar.xz
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
@@ -430,7 +430,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/Compiler
-        mwc.pl -type gnuace -static -features no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
+        perl $ACE_ROOT/bin/mwc.pl -type gnuace -static -features no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
     - name: make compiler tests
       shell: bash
       run: |
@@ -510,16 +510,16 @@ jobs:
       with:
         repository: DOCGroup/ACE_TAO
         ref: ace6tao2
-        path: OpenDDS/ACE_TAO
+        path: ACE_TAO
     - name: download ACE_TAO artifact
       uses: actions/download-artifact@v2
       with:
         name: ACE_TAO_u18_stat_qt_ws_sec_artifact
-        path: OpenDDS/ACE_TAO
+        path: ACE_TAO
     - name: extract ACE_TAO artifact
       shell: bash
       run: |
-        cd OpenDDS/ACE_TAO
+        cd ACE_TAO
         tar xvfJ ACE_TAO_u18_stat_qt_ws_sec.tar.xz
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
@@ -553,7 +553,7 @@ jobs:
         cd OpenDDS
         . setenv.sh
         cd tests/DCPS/UnitTests
-        mwc.pl -type gnuace -static -features no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
+        perl $ACE_ROOT/bin/mwc.pl -type gnuace -static -features no_rapidjson=0 -features qt5=1 -features ssl=1 -features java=1 -features openssl11=1 -features xerces3=1 -features ipv6=1 -features no_opendds_security=0
     - name: make unit tests
       shell: bash
       run: |
@@ -2064,6 +2064,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_re_o1p1_sec.tar.xz
         rm -f build_w19_re_o1p1_sec.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: setup gtest
       shell: cmd
       run: |
@@ -2121,7 +2123,7 @@ jobs:
         <command name="check_compiler" options="gcc"/>
         <command name="print_perl_version"/>
         <command name="print_autobuild_config"/>
-        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_MESSENGER -Config RTPS -Config WIN32 -Config IPV6 -Config XERCES3 -Config OPENDDS_SECURITY -Config CXX11 -Config RAPIDJSON -Config GH_ACTIONS"/>
+        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_MESSENGER -Config RTPS -Config WIN64 -Config IPV6 -Config XERCES3 -Config OPENDDS_SECURITY -Config CXX11 -Config RAPIDJSON -Config GH_ACTIONS"/>
         <command name="log" options="off"/>
         <command name="process_logs" options="prettify"/>
         </autobuild>
@@ -2202,6 +2204,8 @@ jobs:
         cd OpenDDS
         tar xvfJ build_w19_re_o1p1_sec.tar.xz
         rm -f build_w19_re_o1p1_sec.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: check build configuration
       shell: cmd
       run: |
@@ -2259,7 +2263,7 @@ jobs:
         <command name="check_compiler" options="gcc"/>
         <command name="print_perl_version"/>
         <command name="print_autobuild_config"/>
-        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_COMPILER -Config RTPS -Config WIN32 -Config IPV6 -Config XERCES3 -Config OPENDDS_SECURITY -Config CXX11 -Config RAPIDJSON -Config GH_ACTIONS"/>
+        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_COMPILER -Config RTPS -Config WIN64 -Config IPV6 -Config XERCES3 -Config OPENDDS_SECURITY -Config CXX11 -Config RAPIDJSON -Config GH_ACTIONS"/>
         <command name="log" options="off"/>
         <command name="process_logs" options="prettify"/>
         </autobuild>
@@ -2329,6 +2333,8 @@ jobs:
         cd OpenDDS/ACE_TAO
         tar xvfJ ACE_TAO_w19_re_o1p1_sec.tar.xz
         rm -f ACE_TAO_w19_re_o1p1_sec.tar.xz
+    - name: set up msvc env
+      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: download OpenDDS artifact
       uses: actions/download-artifact@v2
       with:
@@ -2397,7 +2403,7 @@ jobs:
         <command name="check_compiler" options="gcc"/>
         <command name="print_perl_version"/>
         <command name="print_autobuild_config"/>
-        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_COMPILER -Config RTPS -Config WIN32 -Config IPV6 -Config XERCES3 -Config OPENDDS_SECURITY -Config CXX11 -Config RAPIDJSON -Config GH_ACTIONS"/>
+        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_COMPILER -Config RTPS -Config WIN64 -Config IPV6 -Config XERCES3 -Config OPENDDS_SECURITY -Config CXX11 -Config RAPIDJSON -Config GH_ACTIONS"/>
         <command name="log" options="off"/>
         <command name="process_logs" options="prettify"/>
         </autobuild>
@@ -2646,8 +2652,6 @@ jobs:
         cd OpenDDS
         call setenv.cmd
         perl tools\scripts\show_build_config.pl
-    - name: set up msvc env
-      uses: ilammy/msvc-dev-cmd@v1.7.0
     - name: build OpenDDS
       shell: cmd
       run: |
@@ -2785,7 +2789,7 @@ jobs:
         <command name="check_compiler" options="gcc"/>
         <command name="print_perl_version"/>
         <command name="print_autobuild_config"/>
-        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_MESSENGER -Config RTPS -Config WIN32 -Config XERCES3 -Config CXX11 -Config RAPIDJSON -Config NO_BUILT_IN_TOPICS -Config GH_ACTIONS"/>
+        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_MESSENGER -Config RTPS -Config WIN64 -Config XERCES3 -Config CXX11 -Config RAPIDJSON -Config NO_BUILT_IN_TOPICS -Config GH_ACTIONS"/>
         <command name="log" options="off"/>
         <command name="process_logs" options="prettify"/>
         </autobuild>
@@ -2925,7 +2929,7 @@ jobs:
         <command name="check_compiler" options="gcc"/>
         <command name="print_perl_version"/>
         <command name="print_autobuild_config"/>
-        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_COMPILER -Config RTPS -Config WIN32 -Config XERCES3 -Config CXX11 -Config RAPIDJSON -Config NO_BUILT_IN_TOPICS -Config GH_ACTIONS"/>
+        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_COMPILER -Config RTPS -Config WIN64 -Config XERCES3 -Config CXX11 -Config RAPIDJSON -Config NO_BUILT_IN_TOPICS -Config GH_ACTIONS"/>
         <command name="log" options="off"/>
         <command name="process_logs" options="prettify"/>
         </autobuild>
@@ -3065,7 +3069,7 @@ jobs:
         <command name="check_compiler" options="gcc"/>
         <command name="print_perl_version"/>
         <command name="print_autobuild_config"/>
-        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_UNIT -Config RTPS -Config WIN32 -Config XERCES3 -Config CXX11 -Config RAPIDJSON -Config NO_BUILT_IN_TOPICS -Config GH_ACTIONS"/>
+        <command name="auto_run_tests" options="script_path=tests dir=$FS_GHW/OpenDDS -l tests\static_ci_tests.lst -Config STATIC_UNIT -Config RTPS -Config WIN64 -Config XERCES3 -Config CXX11 -Config RAPIDJSON -Config NO_BUILT_IN_TOPICS -Config GH_ACTIONS"/>
         <command name="log" options="off"/>
         <command name="process_logs" options="prettify"/>
         </autobuild>
