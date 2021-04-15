@@ -1694,7 +1694,7 @@ jobs:
         cat "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"
         if ! grep -q 'Failures: 0' "$GITHUB_WORKSPACE/OpenDDS/${{ github.job }}_autobuild_workspace/latest.txt"; then echo "::error file=latest.txt,line=0,col=0::Test Failures: see 'Test Results: ${{ github.job }}'"; fi
 
-  compiler_w19_re_p1_cpp03_stat_FM-08:
+  unit_w19_re_p1_cpp03_stat_FM-08:
 
     runs-on: windows-2019
 
