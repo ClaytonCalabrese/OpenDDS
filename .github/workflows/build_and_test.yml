@@ -161,7 +161,7 @@ jobs:
         . install_setenv.sh
         cd java/tests/messenger
         git clean -dfx .
-        $ACE_ROOT/bin/mwc.pl -type gnuace  -language java .
+        $ACE_ROOT/bin/mwc.pl -type gnuace
         make
     - name: create OpenDDS tar.xz artifact
       shell: bash
