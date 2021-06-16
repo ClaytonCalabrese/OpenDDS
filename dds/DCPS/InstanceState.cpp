@@ -188,7 +188,10 @@ void InstanceState::writer_became_dead(const PublicationId& writer_id, int, cons
 
   ACE_GUARD(ACE_Recursive_Thread_Mutex, guard, lock_);
   writers_.erase(writer_id);
-
+  ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) InstanceState::writer_became_dead: writers_.empty() = %d\n"),
+      writers_.empty()));
+  ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) InstanceState::writer_became_dead: instance_state_string() = %s\n"),
+      instance_state_string()));
   if (writers_.empty() && (instance_state_ & DDS::ALIVE_INSTANCE_STATE)) {
     instance_state_ = DDS::NOT_ALIVE_NO_WRITERS_INSTANCE_STATE;
     schedule_release();
