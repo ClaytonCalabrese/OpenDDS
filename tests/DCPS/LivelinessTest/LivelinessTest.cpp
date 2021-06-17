@@ -361,7 +361,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[])
       DDS::Duration_t timeout = { 60, 0 };
       if (remote_reader_ws->wait(conditions, timeout) != DDS::RETCODE_OK) {
         ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("ERROR: %N:%l: main() -")
-          ACE_TEXT(" wait failed!\n")), 1);
+          ACE_TEXT(" wait faiiled!\n")), 1);
       }
     }
     remote_reader_ws->detach_condition(remote_reader_condition);
